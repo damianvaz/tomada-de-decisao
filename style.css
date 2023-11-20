@@ -135,9 +135,6 @@ button.minusState:hover {
     margin: auto auto auto .5%;
     background-color: #0f1f03;
 }
-button.minusState1:hover + .minusStateHighlight1{
-    display: block;
-}
 
 div.enterData {
     border: red 1px solid;

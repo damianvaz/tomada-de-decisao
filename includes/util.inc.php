@@ -21,10 +21,7 @@
         echo "<label class='placeholder'>-</label>";
         $stateNameEcho = $labelStateName;
         $rect = "";
-     //   $height = (13 + (21.5 * $alternativesNumber));
         $height = (30 + (21 * $alternativesNumber));
-
-       // $height = 155;
         $height .= "px";
         $width = (18.5 + (5.5 * $StatesNumber));
 
@@ -34,17 +31,10 @@
             $left = 15.5 + (100 - $width)/2;
         }
 
-//        while ($counter < $number) {
-//            $counter++;
-//            echo "<button class='minusState' name='minusState$counter'>-</button>";
-//            $rect .= "<div id='highlight' class='minusStateHighlight' style=';left:$left%'></div>";
-//            $left += 5.5;
-//            $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
-//                  placeholder='Estado $counter'>";
-//        }
         while ($counter < $StatesNumber) {
             $counter++;
-            echo "<button class='minusState minusState$counter' name='minusState$counter'>-</button><div id='highlight' class='minusStateHighlight minusStateHighlight$counter' style='height:$height;left:$left%'></div>";
+            $style = "<style>button.minusState$counter:hover + .minusStateHighlight$counter{ display: block; }</style>";
+            echo "<button class='minusState minusState$counter' name='minusState$counter'>-</button><div class='minusStateHighlight minusStateHighlight$counter' style='height:$height;left:$left%'></div>$style";
             $left += 5.5;
             $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
                   placeholder='Estado $counter'>";
