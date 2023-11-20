@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500&family=Rubik&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    font-size: 18px;
+}
+
+h1 {
+    font-family: 'Lora', serif;
+    text-align: center;
+    border-bottom: 1px solid #777;
+    background-color: #9bd770;
+    box-shadow: 0 0 4px 0 #202c18;
+    margin: 0 0 16px;
+}
+
+fieldset {
+    width: 98%;
+    text-align: center;
+    margin: auto auto 16px;
+    padding: 2.5%;
+    border-radius: 10px;
+    background-color: #ebf7e3;
+    white-space: nowrap;
+    overflow-x: auto;
+    position: relative;
+    z-index: 1;
+}
+
+label.alinha {
+    width: 15%;
+    display: inline-block;
+    text-align: right;
+    margin-bottom: 10px;
+    margin-top: 0;
+    box-sizing: border-box;
+    border: red 1px solid;
+}
+label.placeholder {
+    visibility: hidden;
+    width: 15%;
+    font-size: 0;
+    height: 0;
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-top: 0;
+
+}
+
+input.simple {
+    width: 50%;
+}
+
+input.stateName {
+    width: 5%;
+    margin: 0 0 0 .5%;
+    border: red 1px solid;
+}
+
+input.alternativeData {
+    width: 5%;
+    margin-left: .5%;
+    border: red 1px solid;
+}
+
+input.alternativeName {
+    width: 15%;
+    margin: 0;
+    border: red 1px solid;
+}
+
+input, button {
+    font-family: 'Rubik', serif;
+}
+
+button.placeholder {
+    visibility: hidden;
+    margin: auto auto auto .5%;
+}
+
+button.minusAlternative {
+    margin: auto auto auto .5%;
+    box-shadow: 0 0 2px 0 #0f1f03 ;
+    font-size: 12px;
+    background-color: #d28b8b;
+}
+
+button.minusAlternative:hover {
+    margin: auto auto auto .5%;
+}
+
+
+button.minusState {
+    width: 5%;
+    margin: auto auto auto .5%;
+    box-shadow: 0 0 2px 0 #0f1f03 ;
+    font-size: 12px;/
+    background-color: #d28b8b;
+}
+
+button.minusState:hover {
+    margin: auto auto auto .5%;
+}
+button.minusStateHighlight:hover ~ #highlight{
+    visibility: visible;
+}
+button {
+    font-size: 18px;
+    font-weight: bold;
+    min-width: 3%;
+    font-family: 'Rubik', serif;
+    padding: 2px;
+    margin: 8px auto auto 8px;
+    background-color: chartreuse;
+    border-radius: 5px;
+    border: 0;
+    box-shadow: 0 0 4px 0 #0f1f03 ;
+}
+
+button:hover {
+    background-color: aqua;
+    margin: 8px auto auto .5%;
+}
+
+button.addAlternative {
+    margin: .5% 0 0 0;
+}
+
+div.minusStateHighlight {
+    visibility: hidden;
+    width: 5%;
+    height: 100%;
+    background-color: indianred;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    z-index: 3;
+    left: 0%;
+}
+div.enterData {
+    border: red 1px solid;
+    position: relative;
+    z-index: 3;
+}
+button.addAlternative:hover {
+    margin: .5% auto auto auto;
+}
+
+button.addState {
+    margin: auto auto auto .5%;
+}
+p {
+    width: 50%;
+    border: 1px solid #777;
+    margin: 20px auto;
+    text-align: center;
+    background: #bfe7a2;
+}
+
+p.error {
+    background: #ee4b4b;
+    margin: 0 auto;
+}
+
+span {
+    color: #0f083b;
+    font-weight: bold;
+    font-style: italic;
+}
+
+table {
+    width: 50%;
+    border: 1px solid #777;
+    background: #ebf7e3;
+    margin: 30px auto;
+}
+
+td, th {
+    border: 1px solid #777;
+}
+
+th {
+    background: #1b3409;
+    color: #fff;
+}
+
+td {
+    padding-left: 15px;
+}
+
+select {
+    width: 50%;
+}
+
+label.radio {
+    width: 10%;
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+label.check {
+    width: 21%;
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 10px;
+}
+*{
+
+    -webkit-box-sizing: border-box ;
+
+    -moz-box-sizing: border-box ;
+
+    box-sizing: border-box;
+
+}
+
