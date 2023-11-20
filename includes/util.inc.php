@@ -28,14 +28,29 @@
             $left = 15.5 + (100 - $width)/2;
         }
 
+//        while ($counter < $number) {
+//            $counter++;
+//            echo "<button class='minusState' name='minusState$counter'>-</button>";
+//            $rect .= "<div id='highlight' class='minusStateHighlight' style=';left:$left%'></div>";
+//            $left += 5.5;
+//            $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
+//                  placeholder='Estado $counter'>";
+//        }
         while ($counter < $number) {
             $counter++;
-            echo "<button class='minusState' name='minusState$counter'>-</button>";
-            $rect .= "<div id='highlight' class='minusStateHighlight' style=';left:$left%'></div>";
+            echo "<button class='minusState minusState$counter' name='minusState$counter'>-</button><div id='highlight' class='minusStateHighlight minusStateHighlight$counter' style=';left:$left%'></div>";
             $left += 5.5;
             $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
                   placeholder='Estado $counter'>";
         }
+//        while ($counter < $number) {
+//            $counter++;
+//            echo "<button class='minusState$counter' name='minusState$counter'>-</button><div id='highlight' class='minusStateHighlight$counter' style=';left:$left%'></div>";
+//            $left += 5.5;
+//            $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
+//                  placeholder='Estado $counter'>";
+//        }
+
         echo "$rect$placeholderButton$stateNameEcho$addStateButton";
     }
 //function printStates($number) {

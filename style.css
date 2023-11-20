@@ -25,7 +25,6 @@ fieldset {
     white-space: nowrap;
     overflow-x: auto;
     position: relative;
-    z-index: 1;
 }
 
 label.alinha {
@@ -90,21 +89,6 @@ button.minusAlternative:hover {
     margin: auto auto auto .5%;
 }
 
-
-button.minusState {
-    width: 5%;
-    margin: auto auto auto .5%;
-    box-shadow: 0 0 2px 0 #0f1f03 ;
-    font-size: 12px;/
-    background-color: #d28b8b;
-}
-
-button.minusState:hover {
-    margin: auto auto auto .5%;
-}
-button.minusStateHighlight:hover ~ #highlight{
-    visibility: visible;
-}
 button {
     font-size: 18px;
     font-weight: bold;
@@ -127,21 +111,38 @@ button.addAlternative {
     margin: .5% 0 0 0;
 }
 
-div.minusStateHighlight {
-    visibility: hidden;
+.minusStateHighlight {
+    display: none;
     width: 5%;
     height: 100%;
-    background-color: indianred;
+    background-color: #d28b8bcc;
     position: absolute;
-    display: inline-block;
-    top: 0;
-    z-index: 3;
-    left: 0%;
+    bottom: 30px;
+    z-index: 1;
+    left: 0;
 }
+
+
+button.minusState {
+    width: 5%;
+    margin: auto auto auto .5%;
+    box-shadow: 0 0 2px 0 #0f1f03 ;
+    font-size: 12px;
+    background-color: #d28b8b;
+    z-index: 8;
+}
+
+button.minusState:hover {
+    margin: auto auto auto .5%;
+    background-color: #0f1f03;
+}
+button.minusState1:hover + .minusStateHighlight1{
+    display: block;
+}
+
 div.enterData {
     border: red 1px solid;
     position: relative;
-    z-index: 3;
 }
 button.addAlternative:hover {
     margin: .5% auto auto auto;
