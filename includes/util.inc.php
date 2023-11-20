@@ -11,7 +11,7 @@
         echo "<button class='minusAlternative' name='minusAlternative$alternativeNumber'>-</button><br>";
     }
     // Print minus buttons for the states first, and prepares the text for the states input to echo after
-    function printStates($number) {
+    function printStates($StatesNumber, $alternativesNumber) {
         $counter = 0;
         $addStateButton = "<button class='addState' name='addState'>+</button><br>";
         $placeholderButton = "<button class='placeholder'>+</button><br>";
@@ -21,7 +21,13 @@
         echo "<label class='placeholder'>-</label>";
         $stateNameEcho = $labelStateName;
         $rect = "";
-        $width = (18.5 + (5.5 * $number));
+     //   $height = (13 + (21.5 * $alternativesNumber));
+        $height = (30 + (21 * $alternativesNumber));
+
+       // $height = 155;
+        $height .= "px";
+        $width = (18.5 + (5.5 * $StatesNumber));
+
         if($width > 100) {
             $left = 15.5;
         } else {
@@ -36,20 +42,13 @@
 //            $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
 //                  placeholder='Estado $counter'>";
 //        }
-        while ($counter < $number) {
+        while ($counter < $StatesNumber) {
             $counter++;
-            echo "<button class='minusState minusState$counter' name='minusState$counter'>-</button><div id='highlight' class='minusStateHighlight minusStateHighlight$counter' style=';left:$left%'></div>";
+            echo "<button class='minusState minusState$counter' name='minusState$counter'>-</button><div id='highlight' class='minusStateHighlight minusStateHighlight$counter' style='height:$height;left:$left%'></div>";
             $left += 5.5;
             $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
                   placeholder='Estado $counter'>";
         }
-//        while ($counter < $number) {
-//            $counter++;
-//            echo "<button class='minusState$counter' name='minusState$counter'>-</button><div id='highlight' class='minusStateHighlight$counter' style=';left:$left%'></div>";
-//            $left += 5.5;
-//            $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter'
-//                  placeholder='Estado $counter'>";
-//        }
 
         echo "$rect$placeholderButton$stateNameEcho$addStateButton";
     }

@@ -114,10 +114,9 @@ button.addAlternative {
 .minusStateHighlight {
     display: none;
     width: 5%;
-    height: 100%;
     background-color: #d28b8bcc;
     position: absolute;
-    bottom: 30px;
+    bottom: 35px;
     z-index: 1;
     left: 0;
 }
