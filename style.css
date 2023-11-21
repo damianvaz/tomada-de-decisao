@@ -121,6 +121,14 @@ button.addAlternative {
     left: 0;
 }
 
+.minusAlternativeHighlight {
+    display: none;
+    height: 22px;
+    background-color: #d28b8bcc;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+}
 
 button.minusState {
     width: 5%;
@@ -212,4 +220,3 @@ label.check {
     box-sizing: border-box;
 
 }
-

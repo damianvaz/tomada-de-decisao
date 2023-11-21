@@ -21,8 +21,8 @@ require "./includes/util.inc.php";
 
         <?php
             session_start();
-            $_SESSION['states'] = (isset($_SESSION['states']) ? $_SESSION['states'] : 3);
-            $_SESSION['alternatives'] = (isset($_SESSION['alternatives']) ? $_SESSION['alternatives'] : 3);
+            $states = $_SESSION['states'] = (isset($_SESSION['states']) ? $_SESSION['states'] : 3);
+            $alternatives = $_SESSION['alternatives'] = (isset($_SESSION['alternatives']) ? $_SESSION['alternatives'] : 3);
 
             if (isset($_POST['addAlternative'])) {
                 $alternatives = $_SESSION['alternatives'] + 1;
@@ -34,12 +34,18 @@ require "./includes/util.inc.php";
                 $states = $_SESSION['states'] + 1;
                 $_SESSION['states'] = $states;
             }
+
             printStates($_SESSION['states'], $_SESSION['alternatives']);
 
             $counter = 0;
             while ($counter < $_SESSION['alternatives']) {
                 $counter++;
                 printAlternative($counter,$_SESSION['states']);
+                $atribute = "minusAlternative$counter";
+                if (isset($_POST[$atribute])) {
+                    $alternatives = $_SESSION['alternatives'] - 1;
+                    $_SESSION['alternatives'] = $alternatives;
+                }
             }
             $buttonWidth = 15 + (5.5 * $_SESSION['states']);
             echo "<button class='addAlternative' name='addAlternative' style='width:$buttonWidth%'>+</button><button class='placeholder'>+</button><br>";
