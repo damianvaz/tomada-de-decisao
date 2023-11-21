@@ -116,7 +116,8 @@ button.addAlternative {
     width: 5%;
     background-color: #d28b8bcc;
     position: absolute;
-    bottom: 35px;
+    bottom: 26px;
+    margin-bottom: .5%;
     z-index: 1;
     left: 0;
 }
