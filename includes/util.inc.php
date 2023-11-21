@@ -4,7 +4,7 @@
 
         echo "<input class='alternativeName' type='text' name='$alternative' placeholder='$alternative'>";
         $counter = 0;
-        // Printing the inputs for the alternative data
+        // Printing the inputs for the alternative datahh
         while($counter < $StatesQtd) {
             $counter++;
             $name = "alternative".$alternativeNumber."state".$counter;
