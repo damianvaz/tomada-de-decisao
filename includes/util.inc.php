@@ -12,7 +12,7 @@
         }
 
         // Printing the minus button for the alternative with correct style and position and the highlight for the button
-        $top = 60 + (22 * $alternativeNumber);
+        $top = 60 + (21 * $alternativeNumber);
         $top .= "px";
         $width = (15 + (5.5 * $StatesQtd));
         $totalWidth = (18.5 + (5.5 * $StatesQtd));
@@ -33,7 +33,7 @@
         echo "<label class='placeholder'>-</label>";
         $stateNameEcho = $labelStateName;
         //$height = ((19 * $alternativesNumber));
-        $height = (30 + (22 * $alternativesNumber));
+        $height = (30 + (21 * $alternativesNumber));
         $height .= "px";
         $totalWidth = (18.5 + (5.5 * $StatesNumber));
 
