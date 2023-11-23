@@ -57,7 +57,7 @@ input.simple {
 
 input.stateName {
     width: 5%;
-    margin: 0 0 0 .5%;
+    margin: .5vh 0 0 .5%;
     border: red 1px solid;
 }
 
@@ -80,6 +80,7 @@ button {
     font-size: 18px;
     font-weight: bold;
     min-width: 3%;
+    height: 2vh;
     font-family: 'Rubik', serif;
     padding: 2px;
     margin: 8px auto auto 8px;
@@ -94,14 +95,10 @@ button.placeholder {
 }
 
 button.minusAlternative {
-    margin: auto auto 0 .5%;
+    margin: auto auto auto .5%;
     box-shadow: 0 0 2px 0 #0f1f03 ;
     font-size: 12px;
     background-color: #d28b8b;
-}
-
-button.minusAlternative:hover {
-    margin: auto auto auto .5%;
 }
 
 
@@ -110,7 +107,7 @@ legend {
 }
 button:hover {
     background-color: aqua;
-    margin: 8px auto auto .5%;
+    margin: auto auto auto .5%;
 }
 
 button.addAlternative {
@@ -130,7 +127,8 @@ button.addAlternative {
 
 .minusAlternativeHighlight {
     display: none;
-    height: 22px;
+    height: 3vh;
+    padding: 1.6vh;
     background-color: #d28b8bcc;
     position: absolute;
     z-index: 1;
@@ -163,6 +161,7 @@ button.addAlternative:hover {
 
 button.addState {
     margin: auto auto auto .5%;
+    height: 3vh;
 }
 p {
     width: 50%;
