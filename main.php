@@ -31,7 +31,7 @@ require "./includes/util.inc.php";
 
             $counter = 1;
             while ($counter <= $alternatives) {
-                printAlternative($counter,$_SESSION['states']);
+                printAlternative($counter, $_SESSION['alternatives'], $_SESSION['states']);
                 $counter++;
             }
             $buttonWidth = 15 + (5.5 * $_SESSION['states']);

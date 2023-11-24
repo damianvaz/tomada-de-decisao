@@ -1,5 +1,5 @@
 <?php
-    function printAlternative($alternativeNumber, $StatesQtd) {
+    function printAlternative($alternativeNumber, $totalAlternatives, $StatesQtd) {
         $alternative = "alternativa $alternativeNumber";
 
         echo "<input class='alternativeName' type='text' name='$alternative' placeholder='$alternative'>";
@@ -15,17 +15,20 @@
       //  $top = 60 + (3.5 * $alternativeNumber);
         //$top = 60 + (3.5 * $alternativeNumber);
         //$top = 3.5 + (3.5 * $alternativeNumber);
-       // $top = .5; space between button and border
-        //$top = 4; up to top pf label
-        $top = 4.5; //up to top of input;
+     //   $top = 4; //space between button and border
+        //$top = 4; //up to top pf label
+       // $top = 4.5; //up to top of input;
         //$top = 7.5; // up to BOTTOM of input
-        //$top = 9; // up to top of input data
-        $top = 5.5 + (3.5 * $alternativeNumber);
-        $top .= "vh";
+       // $top = 3.75; // up to top of input data
+       // $top = .25 + (3.5 * $alternativeNumber);
+      //  $top .= "vh";
+    //    $bottom = 5;
+        $bottom = 5 + (($totalAlternatives - $alternativeNumber) * 3.5 );
+        $bottom .= "vh";
         $width = (15 + (5.5 * $StatesQtd));
         $totalWidth = 18.5 + (5.5 * $StatesQtd);
         $left = ($totalWidth < 100) ? (100 - $totalWidth)/2: 0;
-        $highlight = "<div class='minusAlternativeHighlight minusAlternativeHighlight$alternativeNumber' style='top:$top;width:$width%;left: $left%'></div>";
+        $highlight = "<div class='minusAlternativeHighlight minusAlternativeHighlight$alternativeNumber' style='bottom:$bottom;width:$width%;left: $left%'></div>";
         $style = "<style>button.minusAlternative$alternativeNumber:hover + .minusAlternativeHighlight$alternativeNumber{ display: block }</style>";
         $atribute = "minusAlternative$alternativeNumber";
         $buttonMinusAlternative = "<button class='minusAlternative $atribute' name='$atribute'>-</button>";
