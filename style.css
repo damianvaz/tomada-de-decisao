@@ -39,8 +39,6 @@ label.alinha {
 label.placeholder {
     visibility: hidden;
     width: 15%;
-    font-size: 0;
-    height: 0;
     display: inline-block;
     margin-bottom: 0;
     margin-top: 0;
@@ -69,7 +67,7 @@ input.alternativeData {
 
 input.alternativeName {
     width: 15%;
-    margin: 0;
+    /*margin: 0;*/
     border: red 1px solid;
 }
 
@@ -80,10 +78,10 @@ button {
     font-size: 18px;
     font-weight: bold;
     min-width: 3%;
-    height: 2vh;
+    height: 3vh;
     font-family: 'Rubik', serif;
     padding: 2px;
-    margin: 8px auto auto 8px;
+    margin: auto auto auto .5%;
     background-color: chartreuse;
     border-radius: 5px;
     border: 0;
@@ -161,7 +159,7 @@ button.addAlternative:hover {
 
 button.addState {
     margin: auto auto auto .5%;
-    height: 3vh;
+    height: 4vh;
 }
 p {
     width: 50%;

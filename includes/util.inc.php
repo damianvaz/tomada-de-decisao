@@ -14,11 +14,17 @@
         // Printing the minus button for the alternative with correct style and position and the highlight for the button
       //  $top = 60 + (3.5 * $alternativeNumber);
         //$top = 60 + (3.5 * $alternativeNumber);
-        $top = 3.5 + (3.5 * $alternativeNumber);
+        //$top = 3.5 + (3.5 * $alternativeNumber);
+       // $top = .5; space between button and border
+        //$top = 4; up to top pf label
+        $top = 4.5; //up to top of input;
+        //$top = 7.5; // up to BOTTOM of input
+        //$top = 9; // up to top of input data
+        $top = 5.5 + (3.5 * $alternativeNumber);
         $top .= "vh";
         $width = (15 + (5.5 * $StatesQtd));
-        $totalWidth = (18.5 + (5.5 * $StatesQtd));
-        $left = (100 - $totalWidth)/2;
+        $totalWidth = 18.5 + (5.5 * $StatesQtd);
+        $left = ($totalWidth < 100) ? (100 - $totalWidth)/2: 0;
         $highlight = "<div class='minusAlternativeHighlight minusAlternativeHighlight$alternativeNumber' style='top:$top;width:$width%;left: $left%'></div>";
         $style = "<style>button.minusAlternative$alternativeNumber:hover + .minusAlternativeHighlight$alternativeNumber{ display: block }</style>";
         $atribute = "minusAlternative$alternativeNumber";
@@ -34,8 +40,8 @@
 
         echo "<label class='placeholder'>-</label>";
         $stateNameEcho = $labelStateName;
-        //$height = (4 + (3.5 * $alternativesNumber));
-        $height = (3.5 + (3.5 * $alternativesNumber));
+        $height = (4 + (3.5 * $alternativesNumber));
+     //   $height = (3.5 + (3.5 * $alternativesNumber));
        // $height = (3.5 * $alternativesNumber);
         $height .= "vh";
         $totalWidth = (18.5 + (5.5 * $StatesNumber));
