@@ -31,7 +31,7 @@ label.alinha {
     width: 15%;
     display: inline-block;
     text-align: right;
-    margin-bottom: 10px;
+    margin-bottom: 1.5vh;
     margin-top: 0;
     box-sizing: border-box;
     border: red 1px solid;
@@ -42,9 +42,13 @@ label.placeholder {
     font-size: 0;
     height: 0;
     display: inline-block;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     margin-top: 0;
 
+}
+input {
+    margin-bottom: 0.5vh;
+    height: 3vh;
 }
 
 input.simple {
@@ -72,23 +76,6 @@ input.alternativeName {
 input, button {
     font-family: 'Rubik', serif;
 }
-
-button.placeholder {
-    visibility: hidden;
-    margin: auto auto auto .5%;
-}
-
-button.minusAlternative {
-    margin: auto auto auto .5%;
-    box-shadow: 0 0 2px 0 #0f1f03 ;
-    font-size: 12px;
-    background-color: #d28b8b;
-}
-
-button.minusAlternative:hover {
-    margin: auto auto auto .5%;
-}
-
 button {
     font-size: 18px;
     font-weight: bold;
@@ -101,14 +88,34 @@ button {
     border: 0;
     box-shadow: 0 0 4px 0 #0f1f03 ;
 }
+button.placeholder {
+    visibility: hidden;
+    margin: auto auto auto .5%;
+}
 
+button.minusAlternative {
+    margin: auto auto 0 .5%;
+    box-shadow: 0 0 2px 0 #0f1f03 ;
+    font-size: 12px;
+    background-color: #d28b8b;
+}
+
+button.minusAlternative:hover {
+    margin: auto auto auto .5%;
+}
+
+
+legend {
+    text-align: left;
+}
 button:hover {
     background-color: aqua;
     margin: 8px auto auto .5%;
 }
 
 button.addAlternative {
-    margin: .5% 0 0 0;
+    height: 4vh;
+    margin: .5vh 0 0 0;
 }
 
 .minusStateHighlight {
@@ -116,8 +123,7 @@ button.addAlternative {
     width: 5%;
     background-color: #d28b8bcc;
     position: absolute;
-    bottom: 26px;
-    margin-bottom: .5%;
+    bottom: 5vh;
     z-index: 1;
     left: 0;
 }
@@ -148,9 +154,11 @@ button.minusState:hover {
 div.enterData {
     border: red 1px solid;
     position: relative;
+    line-height: 0;
 }
 button.addAlternative:hover {
-    margin: .5% auto auto auto;
+    height: 4vh;
+    margin: 0.5vh auto auto auto;
 }
 
 button.addState {
@@ -198,7 +206,9 @@ td {
 select {
     width: 50%;
 }
-
+label {
+    line-height: normal;
+}
 label.radio {
     width: 10%;
     display: inline-block;

@@ -16,8 +16,9 @@ require "./includes/util.inc.php";
 
 <form action="main.php" method="post" id="form">
     <fieldset>
-        <div class="enterData">
         <legend>Entrar com dados</legend>
+        <div class="enterData">
+
 
 
         <?php
