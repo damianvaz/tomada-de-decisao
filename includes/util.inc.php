@@ -101,7 +101,7 @@
             }
             $atribute = "stateName$i";
             if(isset($_POST[$atribute])) {
-                array_push($statesNames, $_POST[$atribute]);
+                $statesNames[] = $_POST[$atribute];
             }
         }
         $_SESSION['statesNames'] = $statesNames;
