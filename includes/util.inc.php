@@ -8,21 +8,10 @@
         while($counter < $StatesQtd) {
             $counter++;
             $name = "alternative".$alternativeNumber."state".$counter;
-            echo "<input class='alternativeData' type='text' name='$name'>";
+            echo "<input class='alternativeData' type='number' name='$name'>";
         }
 
         // Printing the minus button for the alternative with correct style and position and the highlight for the button
-      //  $top = 60 + (3.5 * $alternativeNumber);
-        //$top = 60 + (3.5 * $alternativeNumber);
-        //$top = 3.5 + (3.5 * $alternativeNumber);
-     //   $top = 4; //space between button and border
-        //$top = 4; //up to top pf label
-       // $top = 4.5; //up to top of input;
-        //$top = 7.5; // up to BOTTOM of input
-       // $top = 3.75; // up to top of input data
-       // $top = .25 + (3.5 * $alternativeNumber);
-      //  $top .= "vh";
-    //    $bottom = 5;
         $bottom = 5 + (($totalAlternatives - $alternativeNumber) * 3.5 );
         $bottom .= "vh";
         $width = (15 + (5.5 * $StatesQtd));
@@ -44,8 +33,6 @@
         echo "<label class='placeholder'>-</label>";
         $stateNameEcho = $labelStateName;
         $height = (4 + (3.5 * $alternativesNumber));
-     //   $height = (3.5 + (3.5 * $alternativesNumber));
-       // $height = (3.5 * $alternativesNumber);
         $height .= "vh";
         $totalWidth = (18.5 + (5.5 * $StatesNumber));
 
@@ -63,7 +50,11 @@
             $highlight = "<div class='minusStateHighlight minusStateHighlight$counter' style='height:$height;left:$left%'></div>";
             echo "$buttonMinusState$highlight$style";
             $left += 5.5;
-            $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter' placeholder='Estado $counter'>";
+            if(isset($_SESSION['statesNames']) AND $counter <= count($_SESSION['statesNames']) AND $_SESSION['statesNames'][$counter-1] != "") {
+                $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter' value='{$_SESSION['statesNames'][$counter-1]}'>";
+            } else {
+                $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter' placeholder='Estado $counter'>";
+            }
         }
 
         // Prints placeholder button to space correctly after the minus state buttons, then prints the inputs for the states names, and finally prints the add state button
@@ -71,10 +62,12 @@
     }
     function handlePost() {
         if(isset($_POST['addState'])) {
+            saveInputs(0);
             $_SESSION['states']++;
         }
         if(isset($_POST['addAlternative'])) {
             $_SESSION['alternatives']++;
+          //  save
         }
         if(isset($_SESSION['states'])) {
             $counter = 0;
@@ -82,6 +75,7 @@
                 $counter++;
                 $atribute = "minusState$counter";
                 if(isset($_POST[$atribute])) {
+                    saveInputs($counter);
                     $_SESSION['states']--;
                 }
             }
@@ -97,7 +91,21 @@
             }
         }
     }
+    function saveInputs($skipState) {
 
+        // Saving the inputs for the states names
+       $statesNames = array();
+        for($i= 1; $i <= $_SESSION['states']; $i++) {
+            if ($i == $skipState) {
+                continue;
+            }
+            $atribute = "stateName$i";
+            if(isset($_POST[$atribute])) {
+                array_push($statesNames, $_POST[$atribute]);
+            }
+        }
+        $_SESSION['statesNames'] = $statesNames;
+    }
 //    function selectCursos() {
 //        global $conexao, $tabelaCurso;
 //        $cursos = $conexao->query("SELECT * FROM $tabelaCurso") or exit($conexao->error);
