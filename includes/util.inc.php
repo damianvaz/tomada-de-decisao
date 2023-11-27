@@ -1,14 +1,22 @@
 <?php
     function printAlternative($alternativeNumber, $totalAlternatives, $StatesQtd) {
         $alternative = "alternativa $alternativeNumber";
-
-        echo "<input class='alternativeName' type='text' name='$alternative' placeholder='$alternative'>";
+        if(isset($_SESSION['alternativesNames']) AND $alternativeNumber <= count($_SESSION['alternativesNames']) AND $_SESSION['alternativesNames'][$alternativeNumber-1] != "") {
+            $alternativeName = "<input class='alternativeName' type='text' name='alternative$alternativeNumber' value='{$_SESSION['alternativesNames'][$alternativeNumber-1]}'>";
+        } else {
+            $alternativeName = "<input class='alternativeName' type='text' name='alternative$alternativeNumber' placeholder='$alternative'>";
+        }
+        echo $alternativeName;
         $counter = 0;
         // Printing the inputs for the alternative data
         while($counter < $StatesQtd) {
             $counter++;
             $name = "alternative".$alternativeNumber."state".$counter;
-            echo "<input class='alternativeData' type='number' name='$name'>";
+            if(isset($_SESSION['alternativesData'][$alternativeNumber-1]) AND $counter <= count($_SESSION['alternativesData'][$alternativeNumber-1]) AND $_SESSION['alternativesData'][$alternativeNumber-1][$counter-1] != "") {
+                echo "<input class='alternativeData' type='number' name='$name' value='{$_SESSION['alternativesData'][$alternativeNumber-1][$counter-1]}'>";
+            } else {
+                echo "<input class='alternativeData' type='number' name='$name' step='0.01'>";
+            }
         }
 
         // Printing the minus button for the alternative with correct style and position and the highlight for the button
@@ -62,12 +70,12 @@
     }
     function handlePost() {
         if(isset($_POST['addState'])) {
-            saveInputs(0);
+            saveInputs(0, 0);
             $_SESSION['states']++;
         }
         if(isset($_POST['addAlternative'])) {
+            saveInputs(0, 0);
             $_SESSION['alternatives']++;
-          //  save
         }
         if(isset($_SESSION['states'])) {
             $counter = 0;
@@ -75,7 +83,7 @@
                 $counter++;
                 $atribute = "minusState$counter";
                 if(isset($_POST[$atribute])) {
-                    saveInputs($counter);
+                    saveInputs($counter, 0);
                     $_SESSION['states']--;
                 }
             }
@@ -86,15 +94,18 @@
                 $counter++;
                 $atribute = "minusAlternative$counter";
                 if(isset($_POST[$atribute])) {
+                    saveInputs(0, $counter);
                     $_SESSION['alternatives']--;
                 }
             }
         }
     }
-    function saveInputs($skipState) {
+    function saveInputs($skipState, $skipAlternative) {
 
         // Saving the inputs for the states names
        $statesNames = array();
+       $alternativesNames = array();
+       $alternativesData = array();
         for($i= 1; $i <= $_SESSION['states']; $i++) {
             if ($i == $skipState) {
                 continue;
@@ -103,8 +114,25 @@
             if(isset($_POST[$atribute])) {
                 $statesNames[] = $_POST[$atribute];
             }
+            for($j = 1; $j <= $_SESSION['alternatives']; $j++) {
+                if($j == $skipAlternative) {
+                    continue;
+                }
+                $atribute = "alternative$j";
+                if($i==1 AND isset($_POST[$atribute])) {
+                    $alternativesNames[] = $_POST[$atribute];
+                }
+                // if button minus alternative was clicked, we only save the inputs for the next line next in the array
+                $line = ($j > $skipAlternative AND $skipAlternative != 0) ? $j -2 : $j -1;
+                $atribute = "alternative".$j."state".$i;
+                if(isset($_POST[$atribute])) {
+                    $alternativesData[$line][] = $_POST[$atribute];
+                }
+            }
         }
         $_SESSION['statesNames'] = $statesNames;
+        $_SESSION['alternativesNames'] = $alternativesNames;
+        $_SESSION['alternativesData'] = $alternativesData;
     }
 //    function selectCursos() {
 //        global $conexao, $tabelaCurso;
