@@ -1,19 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500&family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow&family=JetBrains+Mono:wght@600&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Archivo Narrow', sans-serif;
     margin: 0;
-    font-size: 18px;
     background-color: #090E11;
     color: #D8DCE8;
 }
 
 h1 {
-    font-family: 'Lora', serif;
+    font-family: 'JetBrains Mono', monospace;
     text-align: center;
-    border-bottom: 1px solid #777;
-    background-color: #9bd770;
-    box-shadow: 0 0 4px 0 #202c18;
+    letter-spacing: .3rem;
+    background-color: #3B3F4A;
+    box-shadow: 0 0 4px 0 #191F2B;
     margin: 0 0 16px;
 }
 
@@ -50,6 +49,11 @@ input {
     height: 3vh;
     background-color: transparent;
     color: #D8DCE8;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    border-bottom: 1px solid #5D6268;
+
 }
 
 input.simple {
@@ -57,29 +61,30 @@ input.simple {
 }
 
 input.stateName {
-    width: 5%;
+    width: 6%;
     margin: .5vh 0 1.5vh .5%;
+    border-bottom: 1px solid #A4CAFD;
 }
 
 input.alternativeData {
-    width: 5%;
+    width: 6%;
     margin-left: .5%;
 }
 
 input.alternativeName {
     width: 15%;
-    /*margin: 0;*/
+    border-bottom: 1px solid #D8DCE8;
 }
 
 input, button {
-    font-family: 'Rubik', serif;
+    font-family: 'JetBrains Mono', monospace;
 }
 button {
     font-size: 18px;
     font-weight: bold;
     min-width: 3%;
     height: 3vh;
-    font-family: 'Rubik', serif;
+    font-family: 'JetBrains Mono', monospace;
     padding: 2px;
     margin: auto auto auto .5%;
     background-color: #A4CAFD;
@@ -121,7 +126,7 @@ button.addAlternative {
 
 .minusStateHighlight {
     display: none;
-    width: 5%;
+    width: 6%;
     background-color: #3B3F4Acc;
     position: absolute;
     bottom: 5vh;
@@ -140,7 +145,7 @@ button.addAlternative {
 }
 
 button.minusState {
-    width: 5%;
+    width: 6%;
     margin: auto auto auto .5%;
     box-shadow: 0 0 2px 0 #0f1f03 ;
     font-size: 12px;
@@ -236,4 +241,16 @@ label.check {
 
     box-sizing: border-box;
 
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
