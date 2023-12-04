@@ -34,7 +34,7 @@ require "./includes/util.inc.php";
                 printAlternative($counter, $_SESSION['alternatives'], $_SESSION['states']);
                 $counter++;
             }
-            $buttonWidth = 15 + (6.5 * $_SESSION['states']);
+            $buttonWidth = 15 + (9.5 * $_SESSION['states']);
             $buttonAddAlternative = "<button class='addAlternative' name='addAlternative' style='width:$buttonWidth%'>+</button>";
             $buttonPlaceHolder = "<button class='placeholder'>+</button>";
             echo "$buttonAddAlternative$buttonPlaceHolder";

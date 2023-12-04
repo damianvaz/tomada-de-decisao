@@ -22,8 +22,8 @@
         // Printing the minus button for the alternative with correct style and position and the highlight for the button
         $bottom = 5 + (($totalAlternatives - $alternativeNumber) * 3.5 );
         $bottom .= "vh";
-        $width = (15 + (6.5 * $StatesQtd));
-        $totalWidth = 18.5 + (6.5 * $StatesQtd);
+        $width = (15 + (9.5 * $StatesQtd));
+        $totalWidth = 18.5 + (9.5 * $StatesQtd);
         $left = ($totalWidth < 100) ? (100 - $totalWidth)/2: 0;
         $highlight = "<div class='minusAlternativeHighlight minusAlternativeHighlight$alternativeNumber' style='bottom:$bottom;width:$width%;left: $left%'></div>";
         $style = "<style>button.minusAlternative$alternativeNumber:hover + .minusAlternativeHighlight$alternativeNumber{ display: block }</style>";
@@ -42,7 +42,7 @@
         $stateNameEcho = $labelStateName;
         $height = (4 + (3.5 * $alternativesNumber));
         $height .= "vh";
-        $totalWidth = (18.5 + (6.5 * $StatesNumber));
+        $totalWidth = (18.5 + (9.5 * $StatesNumber));
 
         if($totalWidth > 100) {
             $left = 15.5;
@@ -57,7 +57,7 @@
             $buttonMinusState = "<button class='minusState minusState$counter' name='minusState$counter'>-</button>";
             $highlight = "<div class='minusStateHighlight minusStateHighlight$counter' style='height:$height;left:$left%'></div>";
             echo "$buttonMinusState$highlight$style";
-            $left += 6.5;
+            $left += 9.5;
             if(isset($_SESSION['statesNames']) AND $counter <= count($_SESSION['statesNames']) AND $_SESSION['statesNames'][$counter-1] != "") {
                 $stateNameEcho .= "<input class='stateName' type='text' name='stateName$counter' value='{$_SESSION['statesNames'][$counter-1]}'>";
             } else {
