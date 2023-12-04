@@ -17,7 +17,7 @@ h1 {
 }
 
 fieldset {
-    width: 98%;
+    width: 75%;
     text-align: center;
     margin: auto auto 16px;
     padding: 2.5%;
@@ -63,7 +63,7 @@ input.simple {
 input.stateName {
     width: 6%;
     margin: .5vh 0 1.5vh .5%;
-    border-bottom: 1px solid #A4CAFD;
+        border-bottom: 1px solid #A4CAFD;
 }
 
 input.alternativeData {
@@ -101,7 +101,7 @@ button.minusAlternative {
     margin: auto auto auto .5%;
     box-shadow: 0 0 2px 0 #0f1f03 ;
     color: #D8DCE8;
-    font-size: 12px;
+    font-size: 10px;
     background-color: transparent;
     border: #5D6268 1px solid;
 }
@@ -113,6 +113,7 @@ button.minusAlternative:hover {
 
 legend {
     text-align: left;
+    font-size: 1.25em;
 }
 button:hover {
     background-color: #D8DCE8;
@@ -127,7 +128,7 @@ button.addAlternative {
 .minusStateHighlight {
     display: none;
     width: 6%;
-    background-color: #3B3F4Acc;
+    background-color: #A4CAFDaa;
     position: absolute;
     bottom: 5vh;
     z-index: 1;
@@ -138,7 +139,7 @@ button.addAlternative {
     display: none;
     height: 3vh;
     padding: 1.6vh;
-    background-color: #3B3F4Acc;
+    background-color: #A4CAFDaa;
     position: absolute;
     z-index: 1;
     left: 0;
