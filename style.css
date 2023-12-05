@@ -19,14 +19,48 @@ h1 {
 fieldset {
     width: 75%;
     text-align: center;
-    margin: auto auto 16px;
-    padding: 2.5%;
+    margin: auto auto;
+    padding: 1%;
     border-radius: 10px;
     background-color: #191F2B;
     white-space: nowrap;
     overflow-x: auto;
     position: relative;
     border: #5D6268 2px solid;
+}
+
+fieldset.decisionOuter {
+    text-align: left;
+    background-color: transparent;
+    padding: 0;
+    border: red 2px solid;
+}
+
+fieldset.decision {
+    width: 70%;
+    margin: 0;
+    text-align: left;
+    border-radius: 10px;
+    padding: 1%;
+    background-color: #191F2B;
+    border: #5D6268 2px solid;
+}
+
+select.decisionName {
+    width: 100%;
+}
+
+input.decisionNameIn {
+    width: 95%;
+}
+
+label.decisionNameLabel {
+    width: 8%;
+}
+
+button.save {
+    float: right;
+    width: 10%;
 }
 
 label.alinha {
@@ -115,6 +149,12 @@ legend {
     text-align: left;
     font-size: 1.25em;
 }
+
+legend.decisionLegend {
+    margin-bottom: -0.8rem;
+    margin-left: 1vw;
+}
+
 button:hover {
     background-color: #D8DCE8;
     margin: auto auto auto .5%;

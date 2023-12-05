@@ -15,12 +15,28 @@ require "./includes/util.inc.php";
 <h1>Tomada de decisão</h1>
 
 <form action="main.php" method="post" id="form">
+    <fieldset class="decisionOuter">
+        <fieldset class="decision">
+            <legend >Decisão</legend>
+
+            <label for="decisionName"></label>
+            <select class="decisionName" id="decisionName" name="decisionName">
+                <!--TODO - Puxar do banco de dados-->
+                <option>Decisão 1</option>
+                <option>Decisão 2</option>
+            </select> <br><br>
+
+            <label class="decisionNameLabel" for="name">Nome:</label>
+            <input class="decisionNameIn" type="text" name="name" id="name" value="Decisão 1">
+            <br><br>
+            <button class="save" name="saveDecision">Salvar</button>
+        </fieldset>
+
+    </fieldset>
+
     <fieldset>
         <legend>Entrar com dados</legend>
         <div class="enterData">
-
-
-
         <?php
             session_start();
             handlePost();
