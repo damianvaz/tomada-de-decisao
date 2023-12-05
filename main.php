@@ -31,6 +31,11 @@ require "./includes/util.inc.php";
             <br><br>
             <button class="save" name="saveDecision">Salvar</button>
         </fieldset>
+        <div class="buttons">
+            <button class="decisionButtonTop" name="newDecision">Nova decisão</button>
+            <button class="decisionButtonMiddle" name="deleteDecision">Excluir decisão</button>
+            <button class="decisionButtonBottom" name="calcular">Calcular</button>
+        </div>
 
     </fieldset>
 

@@ -33,7 +33,8 @@ fieldset.decisionOuter {
     text-align: left;
     background-color: transparent;
     padding: 0;
-    border: red 2px solid;
+    display: flex;
+    border: none;
 }
 
 fieldset.decision {
@@ -193,7 +194,6 @@ button.minusState {
     color: #D8DCE8;
     background-color: transparent;
     border: #5D6268 1px solid;
-    z-index: 8;
 }
 
 button.minusState:hover {
@@ -207,6 +207,46 @@ div.enterData {
     margin: 0;
     padding: 0;
 }
+
+div.buttons {
+    float: right;
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+button.decisionButtonTop, button.decisionButtonBottom, button.decisionButtonMiddle {
+    display: block;
+    background-color: transparent;
+    color: #D8DCE8;
+    box-shadow: 0 0 2px 0 #0f1f03 ;
+    border: #5D6268 1px solid;
+    margin-left: 5%;
+    margin-top: 5%;
+    width: 90%;
+
+}
+
+button.decisionButtonTop:hover, button.decisionButtonBottom:hover, button.decisionButtonMiddle:hover {
+    background-color: #A4CAFD;
+    color: #090E11;
+}
+
+/*button.decicionButtonTop {*/
+/*    float: top;*/
+/*}*/
+
+/*button.decicionButtonMiddle {*/
+/*    float: */
+/*}*/
+
+/*button.decicionButtonBottom {*/
+/*    float: bottom;*/
+/*}*/
+
+
+
 button.addAlternative:hover {
     height: 4vh;
     margin: 0.5vh auto auto auto;
