@@ -49,10 +49,20 @@ fieldset.decision {
 
 select.decisionName {
     width: 100%;
+    height: 4vh;
+    background-color: transparent;
+    color: #D8DCE8;
+    border: #5D6268 1px solid;
+    border-radius: 5px;
+}
+
+option {
+    background-color: #191F2B;
+    color: #D8DCE8;
 }
 
 input.decisionNameIn {
-    width: 95%;
+    width: 92%;
 }
 
 label.decisionNameLabel {
@@ -61,7 +71,8 @@ label.decisionNameLabel {
 
 button.save {
     float: right;
-    width: 10%;
+    height: 4vh;
+    width: 38.2%;
 }
 
 label.alinha {
@@ -115,7 +126,7 @@ input, button {
     font-family: 'JetBrains Mono', monospace;
 }
 button {
-    font-size: 18px;
+    font-size: 1.25rem;
     font-weight: bold;
     min-width: 3%;
     height: 3vh;
@@ -214,6 +225,11 @@ div.buttons {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    margin-top: 1vh;
+}
+
+button.decisionButtonBottom {
+    margin-bottom: 0;
 }
 
 button.decisionButtonTop, button.decisionButtonBottom, button.decisionButtonMiddle {
@@ -223,10 +239,10 @@ button.decisionButtonTop, button.decisionButtonBottom, button.decisionButtonMidd
     box-shadow: 0 0 2px 0 #0f1f03 ;
     border: #5D6268 1px solid;
     margin-left: 5%;
-    margin-top: 5%;
-    width: 90%;
-
+    width: 94%;
+    height: 5vh;
 }
+
 
 button.decisionButtonTop:hover, button.decisionButtonBottom:hover, button.decisionButtonMiddle:hover {
     background-color: #A4CAFD;
