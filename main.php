@@ -15,19 +15,46 @@ require "./includes/util.inc.php";
 <h1>Tomada de decisão</h1>
 
 <form action="main.php" method="post" id="form">
+
+    <?php
+    // check if session is started
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    if(isset($_POST['deleteDecision'])){
+        require "./includes/excluir.inc.php";
+    }
+    if(isset($_POST['saveDecision'])){
+            require "./includes/salvar.inc.php";
+    }
+    if(isset($_POST['newDecision'])){
+
+        require "./includes/nova.inc.php";
+    }
+    ?>
+
     <fieldset class="decisionOuter">
         <fieldset class="decision">
             <legend >Decisão</legend>
 
             <label for="decisionName"></label>
-            <select class="decisionName" id="decisionName" name="decisionName">
-                <!--TODO - Puxar do banco de dados-->
-                <option>Decisão 1</option>
-                <option>Decisão 2</option>
+            <?php
+                if(isset($_POST['decisionName'])){
+                    $_SESSION['decisionName'] = $_POST['decisionName'];
+                }
+            ?>
+
+            <select onchange="document.getElementById('form').submit();" class="decisionName" id="decisionName" name="decisionName">
+                <?php
+                    selectDecisions($_SESSION['user_id']);
+                ?>
             </select> <br><br>
 
             <label class="decisionNameLabel" for="name">Nome:</label>
-            <input class="decisionNameIn" type="text" name="name" id="name" value="Decisão 1">
+            <?php
+                getDecisionName();
+            ?>
+
             <br><br>
             <button class="save" name="saveDecision">Salvar</button>
         </fieldset>
@@ -43,8 +70,11 @@ require "./includes/util.inc.php";
         <legend>Entrar com dados</legend>
         <div class="enterData">
         <?php
-            session_start();
             handlePost();
+//            if(isThereTable()) {
+//                setSessionWithTable();
+//
+//            }
             $states = $_SESSION['states'] = (isset($_SESSION['states']) ? $_SESSION['states'] : 3);
             $alternatives = $_SESSION['alternatives'] = (isset($_SESSION['alternatives']) ? $_SESSION['alternatives'] :5);
 
@@ -64,7 +94,18 @@ require "./includes/util.inc.php";
     </fieldset>
 
 
+    <?php
+        if(isset($_POST['calcular'])) {
+            require "./includes/calcular.inc.php";
+        }
+    ?>
 </form>
+
+<form action="./includes/logout.inc.php" method="post">
+    <fieldset>
+        <legend> Desconectar </legend>
+        <button class="home"> Logout </button>
+    </fieldset>
 
 </body>
 </html>

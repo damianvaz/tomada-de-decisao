@@ -77,6 +77,9 @@
             saveInputs(0, 0);
             $_SESSION['alternatives']++;
         }
+        if(isset($_POST['calcular'])) {
+            saveInputs(0, 0);
+        }
         if(isset($_SESSION['states'])) {
             $counter = 0;
             while ($counter < $_SESSION['states']) {
@@ -134,6 +137,130 @@
         $_SESSION['alternativesNames'] = $alternativesNames;
         $_SESSION['alternativesData'] = $alternativesData;
     }
+    function selectDecisions($user) {
+        global $conexao;
+        $decisoes = $conexao->query("SELECT * FROM decision WHERE userId = $user") or exit($conexao->error);
+        if(mysqli_num_rows($decisoes) == 0) {
+            $conexao->query("INSERT INTO decision (userId, nome) VALUES ($user, 'Decisão 1')") or exit($conexao->error);
+        }
+        $decisoes = $conexao->query("SELECT * FROM decision WHERE userId = $user") or exit($conexao->error);
+        $number = mysqli_num_rows($decisoes);
+        $counter = 0;
+        while($registro = $decisoes->fetch_array()) {
+            $counter++;
+            $id = htmlentities($registro[0], ENT_QUOTES, "UTF-8");
+            $decisao = htmlentities($registro[1], ENT_QUOTES, "UTF-8");
+
+            if($counter == $number AND (isset($_POST['newDecision']) OR isset($_POST['deleteDecision']))) {
+                echo "<option value='$id' selected>$decisao</option>";
+            } else if($id== $_SESSION['decisionName']) {
+                echo "<option value='$id' selected>$decisao</option>";
+            } else {
+                echo "<option value='$id'>$decisao</option>";
+            }
+        }
+    }
+
+    function userSession(string $login, mysqli $conexao): void
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['conectado'] = true;
+        $_SESSION['user'] = $login;
+    // get user id
+        $sql = "SELECT id FROM user WHERE login = '$login'";
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        $vetorRegistro = $resultado->fetch_array();
+        $_SESSION['user_id'] = $vetorRegistro[0];
+
+        header("location: main.php");
+    }
+
+    function getDecisionName() {
+        global $conexao;
+        $sql = "SELECT nome FROM decision WHERE userId = '$_SESSION[user_id]'";
+
+        if (isset($_POST['decisionName']) AND !isset($_POST['newDecision']) AND !isset($_POST['deleteDecision'])) {
+            $sql .= " AND id = '$_POST[decisionName]'";
+        }
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        $vetorDecisionName = array();
+
+        foreach($resultado as $indice => $valor) {
+            $vetorDecisionName[$indice] = $valor['nome'];
+        }
+
+        $numberOfDecisions = mysqli_num_rows($resultado) - 1;
+
+        echo "<input class='decisionNameIn' type='text' name='name' id='name' value='$vetorDecisionName[$numberOfDecisions]'>";
+    }
+
+    function isThereTable(){
+        global $conexao;
+        $userId = $_SESSION['user_id'];
+        if (isset($_POST['decisionName'])) {
+            $decisionId = $_POST['decisionName'];
+            $tableName = "User$userId" . "Decision$decisionId" . "Table";
+            echo $tableName;
+
+
+            $sql = "SELECT EXISTS ( SELECT 1 FROM information_schema.tables WHERE table_schema = 'gti_prw2' AND table_name = '$tableName') AS table_exists";
+            $resultado = $conexao->query($sql) or die($conexao->error);
+            $resultado = $resultado->fetch_array();
+
+            // $sql = "SELECT * FROM $tableName";
+
+
+            return $resultado[0];
+        } else {
+            return false;
+        }
+    }
+
+    function setSessionWithTable() {
+        global $conexao;
+        $userId = $_SESSION['user_id'];
+        $decisionId = $_POST['decisionName'];
+        $tableName = "User$userId" . "Decision$decisionId" . "Table";
+        $sql = "SELECT * FROM $tableName";
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        $vetorRegistros = $resultado->fetch_all();
+        $numRows = mysqli_num_rows($resultado);
+        $numCols = mysqli_num_fields($resultado);
+        $states = array();
+        $alternatives = array();
+        $statesNames = array();
+        $alternativesNames = array();
+        $alternativesData = array();
+
+        echo "COLUNAS: $numCols";
+        $counter = 0;
+        while($counter < ($numCols - 1)) {
+            $counter++;
+            $states[] = $counter;
+            $statesNames[] = $vetorRegistros[0][$counter];
+        }
+        print_r($statesNames);
+//        $counter = 0;
+//        while($counter < $numRows) {
+//            $counter++;
+//            $alternatives[] = $counter;
+//            $alternativesNames[] = $vetorRegistros[$counter-1][0];
+//            $counter2 = 0;
+//            while($counter2 < $numCols) {
+//                $counter2++;
+//                $alternativesData[$counter-1][] = $vetorRegistros[$counter-1][$counter2];
+//            }
+//        }
+//        $_SESSION['states'] = $numCols -1;
+//        $_SESSION['alternatives'] = $numRows;
+//        $_SESSION['statesNames'] = $statesNames;
+//        $_SESSION['alternativesNames'] = $alternativesNames;
+//        $_SESSION['alternativesData'] = $alternativesData;
+
+    }
+
 //    function selectCursos() {
 //        global $conexao, $tabelaCurso;
 //        $cursos = $conexao->query("SELECT * FROM $tabelaCurso") or exit($conexao->error);

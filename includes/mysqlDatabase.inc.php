@@ -4,26 +4,48 @@
     $senha = "";
 
     $nomeBanco = "GTI_PRW2";
-    $tabelaCurso = "curso";
-    $tabelaAluno = "aluno";
     $conexao = new mysqli($servidor, $usuario, $senha);
     $conexao->query("CREATE DATABASE IF NOT EXISTS $nomeBanco") or die($conexao->error);
     // open
     $conexao->select_db($nomeBanco);
     $conexao->set_charset("utf8");
-    // include para criar automaticamente a estrutura da tabela no banco de dados
 
-//    $query = "CREATE TABLE IF NOT EXISTS $tabelaCurso (
-//                    id VARCHAR(10) PRIMARY KEY,
-//                    curso VARCHAR(50)) ENGINE=InnoDB";
-//    $conexao->query($query) or die($conexao->error);
-//
-//    $query = "CREATE TABLE IF NOT EXISTS $tabelaAluno (
-//                    matricula VARCHAR(10) PRIMARY KEY,
-//                    aluno VARCHAR(150),
-//                    creditos INT,
-//                    curso VARCHAR(10),
-//                    FOREIGN KEY(curso) REFERENCES curso(id)) ENGINE=InnoDB";
-//
-//    $conexao->query($query) or die($conexao->error);
+    $sql = "CREATE TABLE IF NOT EXISTS user(
+            ID INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(500),
+            email VARCHAR(300),
+            login VARCHAR(300),
+            senha VARCHAR(128)
+            ) ENGINE=innoDB;";
 
+$conexao->query($sql) or die($conexao->error);
+
+
+$sql2 = "CREATE TABLE IF NOT EXISTS decision(
+            ID INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(500),
+            userId INT,
+            FOREIGN KEY(userId) REFERENCES user(ID)
+            ) ENGINE=innoDB";
+
+$conexao->query($sql2) or die($conexao->error);
+
+function createTable($nomeDaTabela, $estadosDaNatureza) {
+    /** @var $conexao  **/
+
+    $sql = "CREATE TABLE IF NOT EXISTS $nomeDaTabela(
+            ID INT PRIMARY KEY AUTO_INCREMENT,
+            alternativeName VARCHAR(500)
+            ) ENGINE=innoDB";
+
+    $conexao->query($sql) or die($conexao->error);
+
+    $Columns = count($estadosDaNatureza);
+    $count = 0;
+    while ($count < $Columns) {
+        $sql = "ALTER TABLE $nomeDaTabela ADD $estadosDaNatureza[$count] VARCHAR(500)";
+        $conexao->query($sql) or die($conexao->error);
+        $count++;
+    }
+
+}

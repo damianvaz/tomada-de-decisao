@@ -16,6 +16,13 @@ h1 {
     margin: 0 0 16px;
 }
 
+h3, h2, h4, h5, h6 {
+    font-family: 'JetBrains Mono', monospace;
+    text-align: left;
+    letter-spacing: .3rem;
+    margin: 0 0 16px;
+}
+
 fieldset {
     width: 75%;
     text-align: center;
@@ -145,8 +152,10 @@ button {
     background-color: #A4CAFD;
     border-radius: 5px;
     border: 0;
-    box-shadow: 0 0 4px 0 #0f1f03 ;
+    box-shadow: 0 0 4px 0 #0f1f03;
+    letter-spacing: .3rem;
 }
+
 button.placeholder {
     visibility: hidden;
     margin: auto auto auto .5%;
@@ -159,15 +168,19 @@ button.minusAlternative {
     font-size: 10px;
     background-color: transparent;
     border: #5D6268 1px solid;
+    letter-spacing: normal;
 }
 
 button.minusAlternative:hover {
     margin: auto auto auto .5%;
     background-color: #3B3F4A;
+    letter-spacing: normal;
 }
 
 legend {
     text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: .3rem;
     font-size: 1.25em;
 }
 
@@ -184,6 +197,7 @@ button:hover {
 button.addAlternative {
     height: 4vh;
     margin: .5vh 0 0 0;
+    letter-spacing: normal;
 }
 
 .minusStateHighlight {
@@ -214,11 +228,13 @@ button.minusState {
     color: #D8DCE8;
     background-color: transparent;
     border: #5D6268 1px solid;
+    letter-spacing: normal;
 }
 
 button.minusState:hover {
     margin: auto auto auto .5%;
     background-color: #3B3F4A;
+    letter-spacing: normal;
 }
 
 div.enterData {
@@ -252,41 +268,32 @@ button.decisionButtonTop, button.decisionButtonBottom, button.decisionButtonMidd
     height: 5vh;
 }
 
+button.home {
+    height: 5vh;
+}
+
 
 button.decisionButtonTop:hover, button.decisionButtonBottom:hover, button.decisionButtonMiddle:hover {
     background-color: #A4CAFD;
     color: #090E11;
 }
 
-/*button.decicionButtonTop {*/
-/*    float: top;*/
-/*}*/
-
-/*button.decicionButtonMiddle {*/
-/*    float: */
-/*}*/
-
-/*button.decicionButtonBottom {*/
-/*    float: bottom;*/
-/*}*/
-
-
-
 button.addAlternative:hover {
     height: 4vh;
     margin: 0.5vh auto auto auto;
+    letter-spacing: normal;
 }
 
 button.addState {
     margin: auto auto auto .5%;
     height: 4vh;
+    letter-spacing: normal;
 }
 p {
-    width: 50%;
-    border: 1px solid #777;
-    margin: 20px auto;
-    text-align: center;
-    background: #bfe7a2;
+    width: 100%;
+    text-align: left;
+    word-break: break-word;
+    white-space: normal;
 }
 
 p.error {
@@ -302,18 +309,19 @@ span {
 
 table {
     width: 50%;
-    border: 1px solid #777;
-    background: #ebf7e3;
+    border: #5D6268 1px solid;
+    background: #191F2B;
+    color: #D8DCE8;
     margin: 30px auto;
 }
 
 td, th {
-    border: 1px solid #777;
+    border: #5D6268 1px solid;
 }
 
 th {
-    background: #1b3409;
-    color: #fff;
+    background-color: #A4CAFD;
+    color: #090E11;
 }
 
 td {
