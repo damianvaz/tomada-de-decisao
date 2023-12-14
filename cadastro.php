@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<h1> Cadastro de usuário com Sessões em PHP </h1>
+<h1> Cadastro de usuário</h1>
 
 <form action="cadastro.php" method="post">
     <fieldset>

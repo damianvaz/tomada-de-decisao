@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<h1> Login de usuário com Sessões em PHP </h1>
+<h1> Login de usuário </h1>
 
 <form action="login.php" method="post">
     <fieldset>

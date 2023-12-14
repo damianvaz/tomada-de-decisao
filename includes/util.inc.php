@@ -141,7 +141,7 @@
         global $conexao;
         $decisoes = $conexao->query("SELECT * FROM decision WHERE userId = $user") or exit($conexao->error);
         if(mysqli_num_rows($decisoes) == 0) {
-            $conexao->query("INSERT INTO decision (userId, nome) VALUES ($user, 'Decisão 1')") or exit($conexao->error);
+            $conexao->query("INSERT INTO decision (userId, name) VALUES ($user, 'Decisão 1')") or exit($conexao->error);
         }
         $decisoes = $conexao->query("SELECT * FROM decision WHERE userId = $user") or exit($conexao->error);
         $number = mysqli_num_rows($decisoes);
@@ -153,8 +153,12 @@
 
             if($counter == $number AND (isset($_POST['newDecision']) OR isset($_POST['deleteDecision']))) {
                 echo "<option value='$id' selected>$decisao</option>";
-            } else if($id== $_SESSION['decisionName']) {
-                echo "<option value='$id' selected>$decisao</option>";
+            } else if(isset($_SESSION['decisionName'])) {
+                if($id == $_SESSION['decisionName']) {
+                    echo "<option value='$id' selected>$decisao</option>";
+                } else {
+                    echo "<option value='$id'>$decisao</option>";
+                }
             } else {
                 echo "<option value='$id'>$decisao</option>";
             }
@@ -179,7 +183,7 @@
 
     function getDecisionName() {
         global $conexao;
-        $sql = "SELECT nome FROM decision WHERE userId = '$_SESSION[user_id]'";
+        $sql = "SELECT name FROM decision WHERE userId = '$_SESSION[user_id]'";
 
         if (isset($_POST['decisionName']) AND !isset($_POST['newDecision']) AND !isset($_POST['deleteDecision'])) {
             $sql .= " AND id = '$_POST[decisionName]'";
@@ -188,7 +192,8 @@
         $vetorDecisionName = array();
 
         foreach($resultado as $indice => $valor) {
-            $vetorDecisionName[$indice] = $valor['nome'];
+            // TODO name or nome
+            $vetorDecisionName[$indice] = $valor['name'];
         }
 
         $numberOfDecisions = mysqli_num_rows($resultado) - 1;

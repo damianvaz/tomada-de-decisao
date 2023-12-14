@@ -29,7 +29,7 @@ require "./includes/util.inc.php";
     }
     if(isset($_POST['newDecision'])){
 
-        require "./includes/nova.inc.php";
+        require "./includes/nova-decisao.inc.php";
     }
     ?>
 
