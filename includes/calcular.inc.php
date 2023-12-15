@@ -8,103 +8,90 @@ O método Maximax é particularmente aplicado em ambientes em que o tomador de d
 </p>
           </fieldset>";
     $userId = $_SESSION['user_id'];
+    global $conexao;
     $decisionId = $_POST['decisionName'];
-    $newTableName = "User$userId"."Decision$decisionId"."Table";
+
+    // First delete all data associated with decisionId
+//    $sql = "DELETE FROM alternative_nature_state WHERE alternative_id IN (SELECT id FROM alternative WHERE decision_id = $decisionId);
+//            DELETE FROM alternative WHERE decision_id = $decisionId;
+//            DELETE FROM nature_state WHERE decision_id = $decisionId;
+//";
+    $sql1 = "DELETE FROM alternative_nature_state WHERE alternative_id IN (SELECT id FROM alternative WHERE decision_id = $decisionId)";
+    $sql2 = "DELETE FROM alternative WHERE decision_id = $decisionId";
+    $sql3 = "DELETE FROM nature_state WHERE decision_id = $decisionId";
+
+    $conexao->query($sql1) or die($conexao->error);
+    $conexao->query($sql2) or die($conexao->error);
+    $conexao->query($sql3) or die($conexao->error);
 
 
+$numRows = $_SESSION['alternatives'];
+$numCols = $_SESSION['states'];
+$states = $_SESSION['statesNames'];
 
+// inserting State names in DB
+    global $conexao;
+    for($i = 0; $i < $numCols; $i++) {
+      //  $states = $_SESSION['statesNames'];
+        $statename = $states[$i];
+        if ($statename == "") {
+            $num = $i + 1;
+            $statename = "Estado $num";
+        }
+        // INSERT INTO nature_state (decision_id, name) VALUES (1, 'State A');
+        $sql = "INSERT INTO nature_state (decision_id, name) VALUES ($decisionId, '$statename')";
+        $conexao->query($sql) or die($conexao->error);
+    }
 
+    // inserting Alternative names in DB
+    for($i = 0; $i < $numRows; $i++) {
+        $alternativeName = $_SESSION['alternativesNames'][$i];
+        if($alternativeName == "") {
+            $num = $i + 1;
+            $alternativeName = "Alternative $num";
+        }
+        $sql = "INSERT INTO alternative (decision_id, name) VALUES ($decisionId, '$alternativeName')";
+        $conexao->query($sql) or die($conexao->error);
+    }
 
-//s  echo $newTableName;
-    // print table
-//    $sql = "SELECT * FROM $newTableName";
-//    $resultado = $conexao->query($sql) or die($conexao->error);
-//    $vetorRegistros = $resultado->fetch_all();
-//    $numRows = mysqli_num_rows($resultado);
-//    $numCols = mysqli_num_fields($resultado);
+    // getting nature_state ids
+    $sql = "SELECT id FROM nature_state WHERE decision_id = $decisionId";
 
+    $resultado = $conexao->query($sql) or die($conexao->error);
+    $natureStateIds = array();
+    while($registro = $resultado->fetch_array()) {
+        $natureStateIds[] = $registro[0];
+    }
 
-    $numRows = $_SESSION['alternatives'];
-    $numCols = $_SESSION['states'];
+    // getting alternative ids
+    $sql = "SELECT id FROM alternative WHERE decision_id = $decisionId";
+
+    $resultado = $conexao->query($sql) or die($conexao->error);
+    $alternativeIds = array();
+    while($registro = $resultado->fetch_array()) {
+        $alternativeIds[] = $registro[0];
+    }
+
+    // inserting data in DB
+    for($i = 0; $i < $numRows; $i++) {
+        for ($j = 0; $j < $numCols; $j++) {
+            $col = $j;
+            $row = $i;
+            $atribute = $_SESSION['alternativesData'][$i][$j];
+            if ($atribute == "") {
+                $atribute = "NULL";
+            }
+            $natureStateId = $natureStateIds[$j];
+            $alternativeId = $alternativeIds[$i];
+            $sql = "INSERT INTO alternative_nature_state (alternative_id, nature_state_id, value) VALUES ($alternativeId, $natureStateId, $atribute)";
+            $conexao->query($sql) or die($conexao->error);
+        }
+    }
+
     echo "<table>
-          <caption>New Table $newTableName</caption>
+          <caption>New Table </caption>
           <tr>";
 
-    /** @var $conexao  **/
-
-
-//    $sql = "CREATE TABLE IF NOT EXISTS $newTableName(
-//            ID INT PRIMARY KEY AUTO_INCREMENT, ";
-//
-//    for($i = 0; $i < $numCols; $i++) {
-//        $states = $_SESSION['statesNames'];
-//        if ($i == 0) {
-//            $sql .= "alternativeName VARCHAR(500), ";
-//        }
-//        $statename = $states[$i];
-//
-//        //take spaces and special chars
-//        $statename = preg_replace('/[^A-Za-z0-9\-]/', '', $statename);
-//        $statename = str_replace(' ', '_', $statename);
-//        if(ctype_digit($statename)) {
-//            $statename = "state_$statename";
-//        }
-//        if ($statename == "") {
-//            $num = $i + 1;
-//            $statename = "estado_$num";
-//        }
-//        if($i == $numCols - 1)
-//            $sql .= "$statename VARCHAR(500)";
-//        else
-//            $sql .= "$statename VARCHAR(500), ";
-//    }
-//    $sql .= ") ENGINE=innoDB";
-////    echo "$sql";
-//    $conexao->query($sql) or die($conexao->error);
-//    //INSERT INTO your_table
-//    //VALUES ('value1', 'value2', 'value3');
-//    $sql2 = "INSERT INTO $newTableName VALUES (NULL, ";
-//    for($i = 0; $i < $numRows; $i++) {
-//        for($j = 0; $j <= $numCols; $j++) {
-//            $atribute = "";
-//            if ($j == 0) {
-//                $alternativeName = $_SESSION['alternativesNames'][$i];
-//                if($alternativeName == "") {
-//                    $num = $i + 1;
-//                    $atribute = "Alternative $num";
-//                } else {
-//                    $atribute = $_SESSION['alternativesNames'][$i];
-//                }
-//            } else {
-//                $col = $j - 1;
-//                $atribute = $_SESSION['alternativesData'][$i][$col];
-//                if ($atribute == "") {
-//                    $atribute = "NULL";
-//                }
-//            }
-//            if($j == $numCols) {
-//                $sql2 .= "'$atribute'";
-//            }
-//            else {
-//                $sql2 .= "'$atribute', ";
-//            }
-//        }
-//        if($i == $numRows - 1) {
-//
-//            $sql2 .= ")";
-//        }
-//        else {
-//            $sql2 .= "), (NULL, ";
-//        }
-//    }
-////echo $sql2;
-//    $conexao->query($sql2) or die($conexao->error);
-
-//
-//
-//
-////------------------------------------------------------------------------------------------
-//
     for($i = 0; $i < $numCols; $i++) {
         $states = $_SESSION['statesNames'];
         if ($i == 0) {
@@ -141,15 +128,62 @@ O método Maximax é particularmente aplicado em ambientes em que o tomador de d
     }
 echo "</tr>";
 echo "</table>";
-//$conexao->query($sql) or die($conexao->error);
 
-//    function createTableOnDB($newTableName) {
-//        /** @var $conexao  **/
+//echo "<table>
+//          <caption>New Table </caption>
+//          <tr>";
 //
-//        $sql = "CREATE TABLE IF NOT EXISTS $newTableName(
-//            ID INT PRIMARY KEY AUTO_INCREMENT,
-//            alternativeName VARCHAR(500)
-//            ) ENGINE=innoDB";
-//
-//        $conexao->query($sql) or die($conexao->error);
+//    for($i = 0; $i < $numCols; $i++) {
+//        $states = array();
+//        $sql = "SELECT name FROM nature_state WHERE decision_id = $decisionId";
+//        $resultado = $conexao->query($sql) or die($conexao->error);
+//        while($registro = $resultado->fetch_array()) {
+//            $states[] = $registro[0];
+//        }
+//        if ($i == 0) {
+//            echo "<th>Alternatives</th>";
+//        }
+//        $statename = $states[$i];
+//        if ($statename == "") {
+//            $num = $i + 1;
+//            $statename = "State $num";
+//        }
+//        echo "<th>$statename</th>";
 //    }
+//    echo "</tr>";
+//    for($i = 0; $i < $numRows; $i++) {
+//        echo "<tr>";
+//        for($j = 0; $j <= $numCols; $j++) {
+//            $atribute = "";
+//            if ($j == 0) {
+//                //$alternativeName = $_SESSION['alternativesNames'][$i];
+//                $sql = "SELECT name FROM alternative WHERE decision_id = $decisionId";
+//                $resultado = $conexao->query($sql) or die($conexao->error);
+//                $alternatives = array();
+//                while($registro = $resultado->fetch_array()) {
+//                    $alternatives[] = $registro[0];
+//                }
+//                if($alternatives[$i] == "") {
+//                    $num = $i + 1;
+//                    $atribute = "Alternative $num";
+//                } else {
+//                    $atribute = $alternatives[$i];
+//                }
+//            } else {
+//                $col = $j - 1;
+//                $sql = "SELECT value FROM alternative_nature_state WHERE alternative_id = $alternativeId AND nature_state_id = $natureStateId[$col]";
+//                //$atribute = $_SESSION['alternativesData'][$i][$col];
+//                echo "<td>$sql</td>";
+////                $resultado = $conexao->query($sql) or die($conexao->error);
+////                $resultado->fetch_array();
+//              //  print_r($resultado);
+//                //$atribute = $resultado[0];
+//
+//            }
+//            echo "<td>$atribute</td>";
+//        }
+//        echo "</tr>";
+//
+//    }
+//echo "</tr>";
+//echo "</table>";

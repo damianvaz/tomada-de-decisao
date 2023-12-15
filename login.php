@@ -18,7 +18,7 @@
         <label for="password" class="alinha"> Senha: </label>
         <input id="password" type="password" name="senha"> <br>
         <div>
-            <button class="home" name="logar"> Logar usuário </button>
+            <button class="floatRightButton" name="logar"> Logar usuário </button>
         </div>
     </fieldset>
 </form>

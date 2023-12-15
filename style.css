@@ -91,6 +91,23 @@ button.save:hover {
     color: #090E11;
 }
 
+button.floatRightButton {
+    float: right;
+    font-size: 1rem;
+    height: 4vh;
+    width: 38.2%;
+    color: #D8DCE8;
+    border: #5D6268 1px solid;
+    background-color: transparent;
+    margin-top: 5%;
+}
+
+button.floatRightButton:hover {
+    background-color: #A4CAFD;
+    color: #090E11;
+    margin-top: 5%;
+}
+
 label.alinha {
     width: 15%;
     display: inline-block;
@@ -299,6 +316,7 @@ p {
 p.error {
     background: #ee4b4b;
     margin: 0 auto;
+    text-align: center;
 }
 
 span {

@@ -7,7 +7,7 @@ $login         = trim($conexao->escape_string($_POST['login']));
 $senha         = trim($conexao->escape_string($_POST['senha']));
 
 //buscar, no banco de dados, a senha do usuário, usando, como chave de pesquisa, o seu login
-$sql = "SELECT senha FROM user WHERE login = '$login'";
+$sql = "SELECT password FROM user WHERE login = '$login'";
 
 $resultado = $conexao->query($sql) OR die($conexao->error);
 

@@ -26,7 +26,7 @@
         <input id="password" type="password" name="senha"> <br>
 
         <div>
-            <button class="home" name="cadastrar"> Cadastrar usuário </button>
+            <button class="floatRightButton" name="cadastrar"> Cadastrar usuário </button>
         </div>
     </fieldset>
 </form>
@@ -39,7 +39,7 @@ if(isset($_POST['cadastrar']))
     // Check if the inputs are empty
     if(empty($_POST['nome']) || empty($_POST['email']) || empty($_POST['login']) || empty($_POST['senha']))
     {
-        echo "<p> Preencha todos os campos! </p>";
+        echo "<p class='error'>Preencha todos os campos!</p>";
     }
     else
     {

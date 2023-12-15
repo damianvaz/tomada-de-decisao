@@ -30,6 +30,35 @@ $sql2 = "CREATE TABLE IF NOT EXISTS decision(
 
 $conexao->query($sql2) or die($conexao->error);
 
+$sql3 = "CREATE TABLE IF NOT EXISTS nature_state(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            decision_id INT,
+            name VARCHAR(300),
+            FOREIGN KEY(decision_id) REFERENCES decision(id)
+            ) ENGINE=innoDB";
+
+$conexao->query($sql3) or die($conexao->error);
+
+$sql4 = "CREATE TABLE IF NOT EXISTS alternative(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            decision_id INT,
+            name VARCHAR(300),
+            FOREIGN KEY(decision_id) REFERENCES decision(id)
+            ) ENGINE=innoDB";
+
+$conexao->query($sql4) or die($conexao->error);
+
+$sql5 = "CREATE TABLE IF NOT EXISTS alternative_nature_state(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            alternative_id INT,
+            nature_state_id INT,
+            value DECIMAL(10, 2),
+            FOREIGN KEY(nature_state_id) REFERENCES nature_state(id),
+            FOREIGN KEY(alternative_id) REFERENCES alternative(id)
+            ) ENGINE=innoDB";
+
+$conexao->query($sql5) or die($conexao->error);
+
 //function createTable($nomeDaTabela, $estadosDaNatureza) {
 //    /** @var $conexao  **/
 //
