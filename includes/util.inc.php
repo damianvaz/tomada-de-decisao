@@ -72,12 +72,14 @@
         if(isset($_POST['addState'])) {
             saveInputs(0, 0);
             $_SESSION['states']++;
+            return false;
         }
         if(isset($_POST['addAlternative'])) {
             saveInputs(0, 0);
             $_SESSION['alternatives']++;
+            return false;
         }
-        if(isset($_POST['calcular'])) {
+        if(isset($_POST['calcular']) OR isset($_POST['saveDecision'])) {
             saveInputs(0, 0);
         }
         if(isset($_SESSION['states'])) {
@@ -88,6 +90,7 @@
                 if(isset($_POST[$atribute])) {
                     saveInputs($counter, 0);
                     $_SESSION['states']--;
+                    return false;
                 }
             }
         }
@@ -99,9 +102,11 @@
                 if(isset($_POST[$atribute])) {
                     saveInputs(0, $counter);
                     $_SESSION['alternatives']--;
+                    return false;
                 }
             }
         }
+        return true;
     }
     function saveInputs($skipState, $skipAlternative) {
 
@@ -130,20 +135,101 @@
                 $atribute = "alternative".$j."state".$i;
                 if(isset($_POST[$atribute])) {
                     $alternativesData[$line][] = $_POST[$atribute];
+                } else {
+                    $alternativesData[$line][] = "";
                 }
             }
         }
         $_SESSION['statesNames'] = $statesNames;
         $_SESSION['alternativesNames'] = $alternativesNames;
         $_SESSION['alternativesData'] = $alternativesData;
+
+    }
+
+    function insertInputs() {
+        global $conexao;
+        $decisionId = $_POST['decisionName'];
+
+        $sql1 = "DELETE FROM alternative_nature_state WHERE alternative_id IN (SELECT id FROM alternative WHERE decision_id = $decisionId)";
+        $sql2 = "DELETE FROM alternative WHERE decision_id = $decisionId";
+        $sql3 = "DELETE FROM nature_state WHERE decision_id = $decisionId";
+
+        $conexao->query($sql1) or die($conexao->error);
+        $conexao->query($sql2) or die($conexao->error);
+        $conexao->query($sql3) or die($conexao->error);
+
+
+        $numRows = $_SESSION['alternatives'];
+        $numCols = $_SESSION['states'];
+        $states = $_SESSION['statesNames'];
+
+        // inserting State names in DB
+        global $conexao;
+        for($i = 0; $i < $numCols; $i++) {
+            //  $states = $_SESSION['statesNames'];
+            $statename = $states[$i];
+            if ($statename == "") {
+                $num = $i + 1;
+                $statename = "Estado $num";
+            }
+            // INSERT INTO nature_state (decision_id, name) VALUES (1, 'State A');
+            $sql = "INSERT INTO nature_state (decision_id, name) VALUES ($decisionId, '$statename')";
+            $conexao->query($sql) or die($conexao->error);
+        }
+
+        // inserting Alternative names in DB
+        for($i = 0; $i < $numRows; $i++) {
+            $alternativeName = $_SESSION['alternativesNames'][$i];
+            if($alternativeName == "") {
+                $num = $i + 1;
+                $alternativeName = "Alternative $num";
+            }
+            $sql = "INSERT INTO alternative (decision_id, name) VALUES ($decisionId, '$alternativeName')";
+            $conexao->query($sql) or die($conexao->error);
+        }
+
+        // getting nature_state ids
+        $sql = "SELECT id FROM nature_state WHERE decision_id = $decisionId";
+
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        $natureStateIds = array();
+        while($registro = $resultado->fetch_array()) {
+            $natureStateIds[] = $registro[0];
+        }
+
+        // getting alternative ids
+        $sql = "SELECT id FROM alternative WHERE decision_id = $decisionId";
+
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        $alternativeIds = array();
+        while($registro = $resultado->fetch_array()) {
+            $alternativeIds[] = $registro[0];
+        }
+
+        // inserting data in DB
+        for($i = 0; $i < $numRows; $i++) {
+            for ($j = 0; $j < $numCols; $j++) {
+                $col = $j;
+                $row = $i;
+                $atribute = $_SESSION['alternativesData'][$i][$j];
+                if ($atribute == "") {
+                    $atribute = "NULL";
+                }
+                $natureStateId = $natureStateIds[$j];
+                $alternativeId = $alternativeIds[$i];
+                $sql = "INSERT INTO alternative_nature_state (alternative_id, nature_state_id, value) VALUES ($alternativeId, $natureStateId, $atribute)";
+                $conexao->query($sql) or die($conexao->error);
+            }
+        }
     }
     function selectDecisions($user) {
         global $conexao;
-        $decisoes = $conexao->query("SELECT * FROM decision WHERE userId = $user") or exit($conexao->error);
+        $decisoes = $conexao->query("SELECT * FROM decision WHERE user_id = $user") or exit($conexao->error);
+        // TODO take this out once the decision id is always made by here
         if(mysqli_num_rows($decisoes) == 0) {
-            $conexao->query("INSERT INTO decision (userId, name) VALUES ($user, 'Decisão 1')") or exit($conexao->error);
+            $conexao->query("INSERT INTO decision (user_id, name) VALUES ($user, 'Decisão 1')") or exit($conexao->error);
         }
-        $decisoes = $conexao->query("SELECT * FROM decision WHERE userId = $user") or exit($conexao->error);
+        $decisoes = $conexao->query("SELECT * FROM decision WHERE user_id = $user") or exit($conexao->error);
         $number = mysqli_num_rows($decisoes);
         $counter = 0;
         while($registro = $decisoes->fetch_array()) {
@@ -153,37 +239,74 @@
 
             if($counter == $number AND (isset($_POST['newDecision']) OR isset($_POST['deleteDecision']))) {
                 echo "<option value='$id' selected>$decisao</option>";
+                $_SESSION['decisionId'] = $id;
             } else if(isset($_SESSION['decisionName'])) {
                 if($id == $_SESSION['decisionName']) {
                     echo "<option value='$id' selected>$decisao</option>";
+                    $_SESSION['decisionId'] = $id;
                 } else {
                     echo "<option value='$id'>$decisao</option>";
                 }
             } else {
                 echo "<option value='$id'>$decisao</option>";
+                $_SESSION['decisionName'] = $decisao;
             }
         }
     }
 
-    function userSession(string $login, mysqli $conexao): void
+    function userSession(string $login, mysqli $conexao): bool
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         $_SESSION['conectado'] = true;
         $_SESSION['user'] = $login;
-    // get user id
+
+        // get user id
         $sql = "SELECT id FROM user WHERE login = '$login'";
         $resultado = $conexao->query($sql) or die($conexao->error);
         $vetorRegistro = $resultado->fetch_array();
+        $userId = $vetorRegistro[0];
         $_SESSION['user_id'] = $vetorRegistro[0];
+        echo "login: $login <br>UserId: $userId <br>";
 
-        header("location: main.php");
+        // get decisionid
+        $sql = "SELECT id FROM decision WHERE user_id = '$userId' ORDER BY id DESC LIMIT 1";
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        $vetorRegistro = $resultado->fetch_array();
+        // check if the query returned any results
+        if(mysqli_num_rows($resultado) > 0) {
+            $decisionId = $vetorRegistro[0];
+            $_SESSION['decisionId'] = $vetorRegistro[0];
+            echo "login: $login <br>UserId: $userId <br> DecisionId: $decisionId <br>";
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function makeFirstDecision() {
+        global $conexao;
+        $userId = $_SESSION['user_id'];
+        $conexao->query("INSERT INTO decision (user_id, name) VALUES ($userId, 'Decisão 1')") or exit($conexao->error);
+        $sql = "SELECT id FROM decision WHERE user_id = '$userId' ORDER BY id DESC LIMIT 1";
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        $vetorRegistro = $resultado->fetch_array();
+        $_SESSION['decisionId'] = $vetorRegistro[0];
+        // TODO
+}
+
+    function unsetSessionVars() {
+        unset($_SESSION['states']);
+        unset($_SESSION['statesNames']);
+        unset($_SESSION['alternatives']);
+        unset($_SESSION['alternativesNames']);
+        unset($_SESSION['alternativesData']);
     }
 
     function getDecisionName() {
         global $conexao;
-        $sql = "SELECT name FROM decision WHERE userId = '$_SESSION[user_id]'";
+        $sql = "SELECT name FROM decision WHERE user_id = '$_SESSION[user_id]'";
 
         if (isset($_POST['decisionName']) AND !isset($_POST['newDecision']) AND !isset($_POST['deleteDecision'])) {
             $sql .= " AND id = '$_POST[decisionName]'";
@@ -192,8 +315,8 @@
         $vetorDecisionName = array();
 
         foreach($resultado as $indice => $valor) {
-            // TODO name or nome
             $vetorDecisionName[$indice] = $valor['name'];
+            // TODO Test when the user logs fresh (no session vars set) if this works
         }
 
         $numberOfDecisions = mysqli_num_rows($resultado) - 1;
@@ -201,86 +324,47 @@
         echo "<input class='decisionNameIn' type='text' name='name' id='name' value='$vetorDecisionName[$numberOfDecisions]'>";
     }
 
-    function isThereTable(){
+    function getFromDB() {
+        // Getting the nature_state
         global $conexao;
-        $userId = $_SESSION['user_id'];
-        if (isset($_POST['decisionName'])) {
-            $decisionId = $_POST['decisionName'];
-            $tableName = "User$userId" . "Decision$decisionId" . "Table";
-            echo $tableName;
-
-
-            $sql = "SELECT EXISTS ( SELECT 1 FROM information_schema.tables WHERE table_schema = 'gti_prw2' AND table_name = '$tableName') AS table_exists";
-            $resultado = $conexao->query($sql) or die($conexao->error);
-            $resultado = $resultado->fetch_array();
-
-            // $sql = "SELECT * FROM $tableName";
-
-
-            return $resultado[0];
-        } else {
-            return false;
-        }
-    }
-
-    function setSessionWithTable() {
-        global $conexao;
-        $userId = $_SESSION['user_id'];
-        $decisionId = $_POST['decisionName'];
-        $tableName = "User$userId" . "Decision$decisionId" . "Table";
-        $sql = "SELECT * FROM $tableName";
+        $decisionId = $_SESSION['decisionId'];
+        $sql = "SELECT name FROM nature_state WHERE decision_id = $decisionId";
         $resultado = $conexao->query($sql) or die($conexao->error);
-        $vetorRegistros = $resultado->fetch_all();
-        $numRows = mysqli_num_rows($resultado);
-        $numCols = mysqli_num_fields($resultado);
-        $states = array();
-        $alternatives = array();
-        $statesNames = array();
-        $alternativesNames = array();
-        $alternativesData = array();
-
-        echo "COLUNAS: $numCols";
-        $counter = 0;
-        while($counter < ($numCols - 1)) {
-            $counter++;
-            $states[] = $counter;
-            $statesNames[] = $vetorRegistros[0][$counter];
+        // check if the query returned any results
+        if(mysqli_num_rows($resultado) > 0) {
+            $states = array();
+            while($registro = $resultado->fetch_array()) {
+                $states[] = $registro[0];
+            }
+            $_SESSION['states'] = count($states);
+            $_SESSION['statesNames'] = $states;
         }
-        print_r($statesNames);
-//        $counter = 0;
-//        while($counter < $numRows) {
-//            $counter++;
-//            $alternatives[] = $counter;
-//            $alternativesNames[] = $vetorRegistros[$counter-1][0];
-//            $counter2 = 0;
-//            while($counter2 < $numCols) {
-//                $counter2++;
-//                $alternativesData[$counter-1][] = $vetorRegistros[$counter-1][$counter2];
-//            }
-//        }
-//        $_SESSION['states'] = $numCols -1;
-//        $_SESSION['alternatives'] = $numRows;
-//        $_SESSION['statesNames'] = $statesNames;
-//        $_SESSION['alternativesNames'] = $alternativesNames;
-//        $_SESSION['alternativesData'] = $alternativesData;
+
+        // getting alternatives
+        $sql = "SELECT name FROM alternative WHERE decision_id = $decisionId";
+        $resultado = $conexao->query($sql) or die($conexao->error);
+        // check if the query returned any results
+        if(mysqli_num_rows($resultado) > 0) {
+            $alternatives = array();
+            while($registro = $resultado->fetch_array()) {
+                $alternatives[] = $registro[0];
+            }
+            $_SESSION['alternatives'] = count($alternatives);
+            $_SESSION['alternativesNames'] = $alternatives;
+
+            // getting alternative_nature_state
+            for($i = 1; $i <= $_SESSION['alternatives']; $i++) {
+                for($j = 1; $j <= $_SESSION['states']; $j++) {
+                    $sql = "SELECT value FROM alternative_nature_state WHERE alternative_id = $i AND nature_state_id = $j";
+                    $resultado = $conexao->query($sql) or die($conexao->error);
+                    // check if the query returned any results
+                    if(mysqli_num_rows($resultado) > 0) {
+                        $registro = $resultado->fetch_array();
+                        $_SESSION['alternativesData'][$i-1][$j-1] = $registro[0];
+                        //$_SESSION['alternativesData'][$i][$j] = $registro[0];
+                    }
+                }
+            }
+        }
 
     }
-
-//    function selectCursos() {
-//        global $conexao, $tabelaCurso;
-//        $cursos = $conexao->query("SELECT * FROM $tabelaCurso") or exit($conexao->error);
-//        if(mysqli_num_rows($cursos) == 0) {
-//            echo "<option value=''>Nenhum curso cadastrado</option>
-//                  </select>
-//                  <p class='error'>Nenhum curso cadastrado, cadastre cursos primeiro antes.</p>";
-//            return false;
-//        } else {
-//            while($registro = $cursos->fetch_array()) {
-//                $id = htmlentities($registro[0], ENT_QUOTES, "UTF-8");
-//                $curso = htmlentities($registro[1], ENT_QUOTES, "UTF-8");
-//                echo "<option value='$id'>$curso</option>";
-//            }
-//            echo "</select><br><br>";
-//            return true;
-//        }
-//    }

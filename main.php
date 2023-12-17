@@ -7,7 +7,7 @@ require "./includes/util.inc.php";
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8">
-    <title> Projeto Tomada de decisão </title>
+    <title> Projeto Tomada de decisão</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -24,14 +24,30 @@ require "./includes/util.inc.php";
     if(isset($_POST['deleteDecision'])){
         require "./includes/excluir.inc.php";
     }
-    if(isset($_POST['saveDecision'])){
-            require "./includes/salvar.inc.php";
+    if(isset($_POST['go'])){
+        $_SESSION['decisionId'] = $_POST['decisionName'];
     }
+
     if(isset($_POST['newDecision'])){
 
         require "./includes/nova-decisao.inc.php";
     }
+    if (handlePost()  AND !isset($_POST['calcular'])) {
+        if(isset($_SESSION['decisionId'])){
+            echo "Getting from decision ID: " . $_SESSION['decisionId'] . "<br>";
+        }
+        getFromDB();
+//        if(isset($_SESSION['decisionId'])) {
+//            echo "decision ID: " . $_SESSION['decisionId'] . "<br>
+//            decision Name: " . $_SESSION['decisionName'] . "<br>";
+//        }
+//
+    }
+
+
     ?>
+
+
 
     <fieldset class="decisionOuter">
         <fieldset class="decision">
@@ -41,22 +57,27 @@ require "./includes/util.inc.php";
             <?php
                 if(isset($_POST['decisionName'])){
                     $_SESSION['decisionName'] = $_POST['decisionName'];
+                    // DO i Need this?
                 }
+
             ?>
 
-            <select onchange="document.getElementById('form').submit();" class="decisionName" id="decisionName" name="decisionName">
+            <select class="decisionName" id="decisionName" name="decisionName">
                 <?php
                     selectDecisions($_SESSION['user_id']);
                 ?>
-            </select> <br><br>
+            </select><br><br>
 
             <label class="decisionNameLabel" for="name">Nome:</label>
             <?php
+         //   echo "<br>decisionID: " . $_SESSION['decisionId'] . "<br>";
                 getDecisionName();
             ?>
 
             <br><br>
+
             <button class="save" name="saveDecision">Salvar</button>
+            <button class="save" name="go">Ver</button>
         </fieldset>
         <div class="buttons">
             <button class="decisionButtonTop" name="newDecision">Nova decisão</button>
@@ -70,11 +91,8 @@ require "./includes/util.inc.php";
         <legend>Entrar com dados</legend>
         <div class="enterData">
         <?php
-            handlePost();
-//            if(isThereTable()) {
-//                setSessionWithTable();
-//
-//            }
+         //   handlePost();
+
             $states = $_SESSION['states'] = (isset($_SESSION['states']) ? $_SESSION['states'] : 3);
             $alternatives = $_SESSION['alternatives'] = (isset($_SESSION['alternatives']) ? $_SESSION['alternatives'] :5);
 
@@ -98,7 +116,15 @@ require "./includes/util.inc.php";
         if(isset($_POST['calcular'])) {
             require "./includes/calcular.inc.php";
         }
+        if(isset($_POST['saveDecision'])){
+
+            require "./includes/salvar.inc.php";
+        }
+
+        saveInputs(0,0);
+
     ?>
+
 </form>
 
 <form action="./includes/logout.inc.php" method="post">
@@ -106,6 +132,6 @@ require "./includes/util.inc.php";
         <legend> Desconectar </legend>
         <button class="home"> Logout </button>
     </fieldset>
-
+</form>
 </body>
 </html>

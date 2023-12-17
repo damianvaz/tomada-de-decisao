@@ -80,7 +80,7 @@ button.save {
     float: right;
     font-size: 1rem;
     height: 4vh;
-    width: 38.2%;
+    width: 19.1%;
     color: #D8DCE8;
     border: #5D6268 1px solid;
     background-color: transparent;
@@ -193,6 +193,21 @@ button.minusAlternative:hover {
     background-color: #3B3F4A;
     letter-spacing: normal;
 }
+/*button.go {*/
+/*    margin: auto auto auto .5%;*/
+/*    box-shadow: 0 0 2px 0 #0f1f03 ;*/
+/*    color: #D8DCE8;*/
+/*    font-size: 10px;*/
+/*    background-color: transparent;*/
+/*    border: #5D6268 1px solid;*/
+/*    letter-spacing: normal;*/
+/*}*/
+/*button.go:hover {*/
+/*    margin: auto auto auto .5%;*/
+/*    background-color: #3B3F4A;*/
+/*    letter-spacing: normal;*/
+/*}*/
+
 
 legend {
     text-align: left;

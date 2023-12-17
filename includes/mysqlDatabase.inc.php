@@ -24,8 +24,8 @@ $conexao->query($sql) or die($conexao->error);
 $sql2 = "CREATE TABLE IF NOT EXISTS decision(
             ID INT PRIMARY KEY AUTO_INCREMENT,
             name VARCHAR(500),
-            userId INT,
-            FOREIGN KEY(userId) REFERENCES user(ID)
+            user_id INT,
+            FOREIGN KEY(user_id) REFERENCES user(ID)
             ) ENGINE=innoDB";
 
 $conexao->query($sql2) or die($conexao->error);

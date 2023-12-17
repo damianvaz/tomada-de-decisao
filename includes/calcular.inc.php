@@ -7,86 +7,9 @@ O método Maximax é particularmente aplicado em ambientes em que o tomador de d
 
 </p>
           </fieldset>";
-    $userId = $_SESSION['user_id'];
-    global $conexao;
-    $decisionId = $_POST['decisionName'];
-
-    // First delete all data associated with decisionId
-//    $sql = "DELETE FROM alternative_nature_state WHERE alternative_id IN (SELECT id FROM alternative WHERE decision_id = $decisionId);
-//            DELETE FROM alternative WHERE decision_id = $decisionId;
-//            DELETE FROM nature_state WHERE decision_id = $decisionId;
-//";
-    $sql1 = "DELETE FROM alternative_nature_state WHERE alternative_id IN (SELECT id FROM alternative WHERE decision_id = $decisionId)";
-    $sql2 = "DELETE FROM alternative WHERE decision_id = $decisionId";
-    $sql3 = "DELETE FROM nature_state WHERE decision_id = $decisionId";
-
-    $conexao->query($sql1) or die($conexao->error);
-    $conexao->query($sql2) or die($conexao->error);
-    $conexao->query($sql3) or die($conexao->error);
-
-
-$numRows = $_SESSION['alternatives'];
-$numCols = $_SESSION['states'];
-$states = $_SESSION['statesNames'];
-
-// inserting State names in DB
-    global $conexao;
-    for($i = 0; $i < $numCols; $i++) {
-      //  $states = $_SESSION['statesNames'];
-        $statename = $states[$i];
-        if ($statename == "") {
-            $num = $i + 1;
-            $statename = "Estado $num";
-        }
-        // INSERT INTO nature_state (decision_id, name) VALUES (1, 'State A');
-        $sql = "INSERT INTO nature_state (decision_id, name) VALUES ($decisionId, '$statename')";
-        $conexao->query($sql) or die($conexao->error);
-    }
-
-    // inserting Alternative names in DB
-    for($i = 0; $i < $numRows; $i++) {
-        $alternativeName = $_SESSION['alternativesNames'][$i];
-        if($alternativeName == "") {
-            $num = $i + 1;
-            $alternativeName = "Alternative $num";
-        }
-        $sql = "INSERT INTO alternative (decision_id, name) VALUES ($decisionId, '$alternativeName')";
-        $conexao->query($sql) or die($conexao->error);
-    }
-
-    // getting nature_state ids
-    $sql = "SELECT id FROM nature_state WHERE decision_id = $decisionId";
-
-    $resultado = $conexao->query($sql) or die($conexao->error);
-    $natureStateIds = array();
-    while($registro = $resultado->fetch_array()) {
-        $natureStateIds[] = $registro[0];
-    }
-
-    // getting alternative ids
-    $sql = "SELECT id FROM alternative WHERE decision_id = $decisionId";
-
-    $resultado = $conexao->query($sql) or die($conexao->error);
-    $alternativeIds = array();
-    while($registro = $resultado->fetch_array()) {
-        $alternativeIds[] = $registro[0];
-    }
-
-    // inserting data in DB
-    for($i = 0; $i < $numRows; $i++) {
-        for ($j = 0; $j < $numCols; $j++) {
-            $col = $j;
-            $row = $i;
-            $atribute = $_SESSION['alternativesData'][$i][$j];
-            if ($atribute == "") {
-                $atribute = "NULL";
-            }
-            $natureStateId = $natureStateIds[$j];
-            $alternativeId = $alternativeIds[$i];
-            $sql = "INSERT INTO alternative_nature_state (alternative_id, nature_state_id, value) VALUES ($alternativeId, $natureStateId, $atribute)";
-            $conexao->query($sql) or die($conexao->error);
-        }
-    }
+ //   $userId = $_SESSION['user_id'];
+    $numRows = $_SESSION['alternatives'];
+    $numCols = $_SESSION['states'];
 
     echo "<table>
           <caption>New Table </caption>

@@ -21,7 +21,10 @@ $senhaCorreta = password_verify($senha, $senhaCriptografada);
 
 if($senhaCorreta)
 {
-    userSession($login, $conexao);
+    if(!userSession($login, $conexao)) {
+        makeFirstDecision();
+    }
+    header("location: main.php");
 }
 
 else
