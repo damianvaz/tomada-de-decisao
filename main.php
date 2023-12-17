@@ -32,19 +32,9 @@ require "./includes/util.inc.php";
 
         require "./includes/nova-decisao.inc.php";
     }
-    if (handlePost()  AND !isset($_POST['calcular'])) {
-        if(isset($_SESSION['decisionId'])){
-            echo "Getting from decision ID: " . $_SESSION['decisionId'] . "<br>";
-        }
+    if (handlePost()  AND !isset($_POST['calcular']) AND !isset($_POST['saveDecision'])) {
         getFromDB();
-//        if(isset($_SESSION['decisionId'])) {
-//            echo "decision ID: " . $_SESSION['decisionId'] . "<br>
-//            decision Name: " . $_SESSION['decisionName'] . "<br>";
-//        }
-//
     }
-
-
     ?>
 
 
@@ -120,8 +110,8 @@ require "./includes/util.inc.php";
 
             require "./includes/salvar.inc.php";
         }
-
         saveInputs(0,0);
+
 
     ?>
 

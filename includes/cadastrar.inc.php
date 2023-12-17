@@ -37,8 +37,9 @@ $conexao->query($sql) or die($conexao->error);
  * @return void
  */
 
-
-userSession($login, $conexao);
+if(!userSession($login, $conexao)) {
+    makeFirstDecision();
+}
 
 //redirecionamos o usuário para a página restrita
 header("location: main.php");

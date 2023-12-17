@@ -278,7 +278,6 @@
         if(mysqli_num_rows($resultado) > 0) {
             $decisionId = $vetorRegistro[0];
             $_SESSION['decisionId'] = $vetorRegistro[0];
-            echo "login: $login <br>UserId: $userId <br> DecisionId: $decisionId <br>";
             return true;
         } else {
             return false;
@@ -352,10 +351,27 @@
             $_SESSION['alternatives'] = count($alternatives);
             $_SESSION['alternativesNames'] = $alternatives;
 
+            // getting alternative ids from Database
+            $sql = "SELECT id FROM alternative WHERE decision_id = $decisionId";
+            $resultado = $conexao->query($sql) or die($conexao->error);
+            $alternativeIds = array();
+            while($registro = $resultado->fetch_array()) {
+                $alternativeIds[] = $registro[0];
+            }
+            // getting nature_state ids from Database
+            $sql = "SELECT id FROM nature_state WHERE decision_id = $decisionId";
+            $resultado = $conexao->query($sql) or die($conexao->error);
+            $natureStateIds = array();
+            while($registro = $resultado->fetch_array()) {
+                $natureStateIds[] = $registro[0];
+            }
+
             // getting alternative_nature_state
             for($i = 1; $i <= $_SESSION['alternatives']; $i++) {
                 for($j = 1; $j <= $_SESSION['states']; $j++) {
-                    $sql = "SELECT value FROM alternative_nature_state WHERE alternative_id = $i AND nature_state_id = $j";
+                    $id_i = $i - 1;
+                    $id_j = $j - 1;
+                    $sql = "SELECT value FROM alternative_nature_state WHERE alternative_id = $alternativeIds[$id_i] AND nature_state_id = $natureStateIds[$id_j]";
                     $resultado = $conexao->query($sql) or die($conexao->error);
                     // check if the query returned any results
                     if(mysqli_num_rows($resultado) > 0) {
